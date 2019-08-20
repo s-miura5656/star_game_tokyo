@@ -24,7 +24,7 @@ public class missile_controller : MonoBehaviour
     float sumTime;
     // 何秒で到達するかの変数
     [System.NonSerialized]
-    float time = 5.0f;
+    float time = 4.0f;
     // 進む割合
     [System.NonSerialized]
     public float ratio;
@@ -69,10 +69,11 @@ public class missile_controller : MonoBehaviour
         screenToWorldPointPosition = Camera.main.ScreenToWorldPoint(position);
 
         // 指定された時間に対して経過した時間の割合
-        if (ratio <= 1)
-        {
-            ratio = sumTime / time;
-        }
+        ratio = sumTime / time;
+
+        //if (ratio <= 1)
+        //{
+        //}
 
         // ワールド座標に変換されたマウス座標と追従させたいオブジェクトの距離を測り、それを割る速度したものを現在位置に加算していく
         this.transform.position = Vector3.Lerp(base_missile_pos, screenToWorldPointPosition, ratio);
@@ -94,5 +95,14 @@ public class missile_controller : MonoBehaviour
         }
     }
 
-
+    private void OnTriggerEnter(Collider other) // 衝突判定
+    {
+        if (other.gameObject.tag == "enemy")
+        {
+            // ブラックホールの生成
+            black_hole_copy = Instantiate(black_hole, transform.position, Quaternion.identity);
+            missile_pop = false;
+            Destroy(gameObject);
+        }
+    }
 }

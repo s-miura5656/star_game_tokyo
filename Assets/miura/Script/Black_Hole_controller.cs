@@ -30,7 +30,7 @@ public class Black_Hole_controller : MonoBehaviour
     {
         centerPosition = this.transform.position;
 
-        Attraction();
+        //Attraction();
         Black_hole_size();
     }
 
@@ -65,7 +65,7 @@ public class Black_Hole_controller : MonoBehaviour
             scale += 0.1f;
             transform.localScale = new Vector3(scale, scale, scale);
 
-            if (scale >= 5f)
+            if (scale >= 4f)
             {
                 scale_switch = false;
             }

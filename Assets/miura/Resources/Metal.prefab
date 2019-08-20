@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 323378944779225428}
   m_Layer: 0
   m_Name: Metal
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,4 +121,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d420f39a85009848a0f498cf647c1f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 0}
+  ENERGY_text: {fileID: 0}

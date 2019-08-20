@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BottonScript : MonoBehaviour
+public class BottonScript1 : MonoBehaviour
 {
-    bool bullet1 = true;
-    bool bullet2 = false;
+    private bool bullet1;
+    private bool bullet2;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        bullet1 = true;
+        bullet2 = false;
     }
 
     // Update is called once per frame

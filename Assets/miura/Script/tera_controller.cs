@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class tera_controller : MonoBehaviour
 {
@@ -10,10 +11,15 @@ public class tera_controller : MonoBehaviour
 
     List<GameObject> enemy_list;
 
+    GameObject text_manager;
+    Text_Manager text_script;
+
     // Start is called before the first frame update
     void Start()
     {
         enemy_list = GameObject.Find("Object_Manager").GetComponent<Enemy_manager>().enemy_list;
+        text_manager = GameObject.Find("Text_Manager");
+        text_script = text_manager.GetComponent<Text_Manager>();
     }
 
     // Update is called once per frame
@@ -34,4 +40,14 @@ public class tera_controller : MonoBehaviour
             
         }
     }
+
+    private void OnTriggerEnter(Collider other) // 衝突判定
+    {
+        if (other.gameObject.tag == "enemy")
+        {
+            text_script.tera_hp -= 1;
+        }
+    }
+
+    
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class enemy_controller : MonoBehaviour
 {
@@ -54,11 +55,11 @@ public class enemy_controller : MonoBehaviour
 
     // 敵の発生場所_X 種類
     [System.NonSerialized]
-    public float pos_X_left = -9f;
+    public float pos_X_left = -8f;
     //[System.NonSerialized]
     //public float pos_X_center = 0f;
     [System.NonSerialized]
-    public float pos_X_right = 9f;
+    public float pos_X_right = 8f;
     [System.NonSerialized]
     public float pos_X_Random;
 
@@ -107,10 +108,15 @@ public class enemy_controller : MonoBehaviour
     // リスト
     List<GameObject> enemy_list;
 
+    // エネルギーゲージ
+    GameObject Text_manager;
+    Text_Manager text_script;
 
     // Start is called before the first frame update
     void Start()
     {
+        Text_manager = GameObject.Find("Text_Manager");
+        text_script = Text_manager.GetComponent<Text_Manager>();
         enemy_list = GameObject.Find("Object_Manager").GetComponent<Enemy_manager>().enemy_list;
         rigidbody = GetComponent<Rigidbody>();
         pos_X_Random = Random.Range(-8f, 8f);
@@ -158,6 +164,7 @@ public class enemy_controller : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             Destroy_and_Creation();
+            text_script.energy_count += 1;
         }
     }
 
