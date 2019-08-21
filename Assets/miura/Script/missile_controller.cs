@@ -13,18 +13,14 @@ public class missile_controller : MonoBehaviour
     public Vector3 screenToWorldPointPosition;
 
     // 速度を格納する変数
-    [System.NonSerialized]
-    float speed = 0.01f;
+    private float speed = 0.01f;
 
     // Z軸修正の値
-    [System.NonSerialized]
-    float z_modification = 20.0f;
+    private float z_modification = 20.0f;
     // 等速で進めるための変数
-    [System.NonSerialized]
-    float sumTime;
+    private float sumTime;
     // 何秒で到達するかの変数
-    [System.NonSerialized]
-    float time = 4.0f;
+    private float time;
     // 進む割合
     [System.NonSerialized]
     public float ratio;
@@ -33,13 +29,11 @@ public class missile_controller : MonoBehaviour
     public Vector3 base_missile_pos;
     [System.NonSerialized]
     // ミサイル一発の発射判定　true = 発射できる　false = 発射できない
-    bool missile_pop;
-    [System.NonSerialized]
+    private bool missile_pop;
     // 複製したブラックホール
-    GameObject black_hole_copy;
+    private GameObject black_hole_copy;
     // prefabの取得のための変数
-    [System.NonSerialized]
-    GameObject black_hole;
+    private GameObject black_hole;
 
 
     // Start is called before the first frame update
@@ -68,12 +62,17 @@ public class missile_controller : MonoBehaviour
         // マウス位置座標をスクリーン座標からワールド座標に変換する
         screenToWorldPointPosition = Camera.main.ScreenToWorldPoint(position);
 
-        // 指定された時間に対して経過した時間の割合
-        ratio = sumTime / time;
+        float distance = Vector3.Distance(base_missile_pos, screenToWorldPointPosition);
 
-        //if (ratio <= 1)
-        //{
-        //}
+        //Debug.Log(distance);
+
+        time = distance / 2;
+
+        // 指定された時間に対して経過した時間の割合
+        if (ratio <= 1)
+        {
+            ratio = sumTime / time;
+        }
 
         // ワールド座標に変換されたマウス座標と追従させたいオブジェクトの距離を測り、それを割る速度したものを現在位置に加算していく
         this.transform.position = Vector3.Lerp(base_missile_pos, screenToWorldPointPosition, ratio);

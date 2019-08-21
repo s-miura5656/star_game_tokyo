@@ -16,11 +16,21 @@ public class Text_Manager : MonoBehaviour
     [System.NonSerialized]
     public int energy_count;
 
+    // 残り弾数
+    public GameObject remaining_bullet_text;
+    [System.NonSerialized]
+    public int bullet_count;
+
+    // 残弾回復
+    private float time;                       // 時間
+    private float recharge_time = 10f;        // リチャージの時間
+
+
     // Start is called before the first frame update
     void Start()
     {
         tera_hp = 100;
-
+        bullet_count = 5;
     }
 
     // Update is called once per frame
@@ -28,6 +38,8 @@ public class Text_Manager : MonoBehaviour
     {
         Tera_HP();
         Energy_Gage();
+        Bullet_Gage();
+        Bullet_Charge();
     }
 
     private void Tera_HP()
@@ -40,5 +52,25 @@ public class Text_Manager : MonoBehaviour
     {
         Text energy_text = ENERGY_text.GetComponent<Text>();
         energy_text.text = "ENERGY:" + energy_count;
+    }
+
+    private void Bullet_Gage()
+    {
+        Text energy_text = remaining_bullet_text.GetComponent<Text>();
+        energy_text.text = "残弾:" + bullet_count;
+    }
+
+    private void Bullet_Charge()
+    {
+        if (bullet_count < 5)
+        {
+            time += Time.deltaTime;
+
+            if (time >= recharge_time)
+            {
+                bullet_count += 1;
+                time = 0f;
+            }
+        }
     }
 }

@@ -14,7 +14,7 @@ public class Enemy_manager : MonoBehaviour
 
     // 敵を出す間隔
     [System.NonSerialized]
-    private float generator_time = 1f;
+    private float generator_time = 0.8f;
     // 時間
     [System.NonSerialized]
     private float time_ = 0f;
