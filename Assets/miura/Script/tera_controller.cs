@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class tera_controller : MonoBehaviour
 {
-    float gravityConst_max = 10.0f;    // 定数(=GMm)のパラメータ
+    float gravityConst_max = 0.0f;    // 定数(=GMm)のパラメータ
 
     GameObject Enemy;
 

@@ -110,6 +110,7 @@ public class enemy_controller : MonoBehaviour
         text_script = Text_manager.GetComponent<Text_Manager>();
         enemy_list = GameObject.Find("Object_Manager").GetComponent<Enemy_manager>().enemy_list;
         rigidbody = GetComponent<Rigidbody>();
+        rigidbody.angularVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0f);
         pos_X_Random = Random.Range(-5f, 5f);
         pos_Y_Random = Random.Range(13f, 14f);
         Enemy_Size();
@@ -155,6 +156,11 @@ public class enemy_controller : MonoBehaviour
             text_script.energy_count += 1;
         }
 
+        if (other.gameObject.tag == "Earth")
+        {
+            Destroy_Enemy();
+        }
+
         if (other.gameObject.tag == "Bar")
         {
             Destroy_Enemy();
@@ -169,12 +175,6 @@ public class enemy_controller : MonoBehaviour
         {
             Destroy_Enemy();
         }
-
-        if (transform.position.y < 0f && transform.position.x > 7.5f ||
-            transform.position.y < 0f && transform.position.x < -7.5f)
-        {
-            Destroy_Enemy();
-        }
     }
 
     public void Enemy_Pattern() //敵の発生位置
@@ -182,13 +182,13 @@ public class enemy_controller : MonoBehaviour
         switch (PATTERN)
         {
             case 0:
-                transform.position = new Vector3(pos_X_left, pos_Y_Random, pos_Z_ZERO);
+                transform.position = new Vector3(pos_X_Random, pos_Y_Random, pos_Z_ZERO);
                 break;
             case 1:
-                transform.position = new Vector3(pos_X_Random, pos_Y_center, pos_Z_ZERO);
+                transform.position = new Vector3(pos_X_Random, pos_Y_Random, pos_Z_ZERO);
                 break;
             case 2:
-                transform.position = new Vector3(pos_X_right, pos_Y_Random, pos_Z_ZERO);
+                transform.position = new Vector3(pos_X_Random, pos_Y_Random, pos_Z_ZERO);
                 break;
         }
     }
