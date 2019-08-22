@@ -77,7 +77,9 @@ public class missile_controller : MonoBehaviour
         // ワールド座標に変換されたマウス座標と追従させたいオブジェクトの距離を測り、それを割る速度したものを現在位置に加算していく
         this.transform.position = Vector3.Lerp(base_missile_pos, screenToWorldPointPosition, ratio);
 
-       
+        Vector3 diff = (screenToWorldPointPosition - transform.position);
+
+        transform.rotation = Quaternion.FromToRotation(Vector3.up, diff);
     }
 
     public void Missile_pop() // 到達したらブラックホールが生成される

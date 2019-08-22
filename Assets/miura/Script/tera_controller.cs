@@ -6,13 +6,11 @@ using UnityEngine.UI;
 public class tera_controller : MonoBehaviour
 {
     float gravityConst_max = 0.0f;    // 定数(=GMm)のパラメータ
-
-    GameObject Enemy;
-
-    List<GameObject> enemy_list;
-
-    GameObject text_manager;
-    Text_Manager text_script;
+    float time = 0.02f;               // 何秒間で回るか
+    GameObject Enemy;                 // 敵のオブジェクトを取得
+    List<GameObject> enemy_list;      // 敵のリスト
+    GameObject text_manager;          // HP用のテキストマネージャー取得
+    Text_Manager text_script;         // テキストマネージャーのスクリプト取得
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +24,7 @@ public class tera_controller : MonoBehaviour
     void Update()
     {
         Attraction();
+        Earth_rotation();
     }
 
     void Attraction() // 引力の関数
@@ -49,5 +48,9 @@ public class tera_controller : MonoBehaviour
         }
     }
 
+    private void Earth_rotation()
+    {
+        transform.Rotate(new Vector3(0, 90f, 0) * (Time.deltaTime * time), Space.World);
+    } 
     
 }
