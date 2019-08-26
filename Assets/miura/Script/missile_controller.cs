@@ -13,7 +13,7 @@ public class missile_controller : MonoBehaviour
     public Vector3 screenToWorldPointPosition;
 
     // 速度を格納する変数
-    private float speed = 0.01f;
+    private float speed = 0.1f;
 
     // Z軸修正の値
     private float z_modification = 20.0f;
@@ -33,6 +33,7 @@ public class missile_controller : MonoBehaviour
     // 複製したブラックホール
     private GameObject black_hole_copy;
     // prefabの取得のための変数
+    [SerializeField]
     private GameObject black_hole;
 
 
@@ -42,7 +43,7 @@ public class missile_controller : MonoBehaviour
         sumTime = 0.0f;
         missile_pop = true;
         base_missile_pos = new Vector3(0.0f, -12.0f, 0.0f);
-        black_hole = (GameObject)Resources.Load("Black_Hole");
+        //black_hole = (GameObject)Resources.Load("Black_Hole");
     }
 
     // Update is called once per frame

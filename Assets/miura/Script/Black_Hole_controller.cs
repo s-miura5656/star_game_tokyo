@@ -5,8 +5,8 @@ using UnityEngine;
 public class Black_Hole_controller : MonoBehaviour
 {
     public Vector3 centerPosition;      // 軌道の中心の座標
-    float gravityConst_max = 80.0f;    // 定数(=GMm)のパラメータ
-    float gravityConst_min = 50.0f;    // 定数(=GMm)のパラメータ
+    float gravityConst_max = 80.0f;     // 定数(=GMm)のパラメータ
+    float gravityConst_min = 50.0f;     // 定数(=GMm)のパラメータ
     float scale;                        // ブラックホールの拡大値
     public bool scale_switch;           // 拡大の拡大縮小切り替え
 

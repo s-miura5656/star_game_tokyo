@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Black_hole_missile_manager : MonoBehaviour
 {
+    [SerializeField]
     GameObject missile;              // プレハブのミサイルを入れるオブジェクト
     GameObject missile_copy;         // ミサイルの複製用オブジェクト
     missile_controller script;       // ミサイルコントローラーを入れるスクリプト
+    [SerializeField]
     GameObject text_manager;         // テキストマネージャーの取得
     Text_Manager text_script;        // テキストマネージャーのスクリプトの取得
     public float relord_time = 3;    // 次弾撃てるまでの時間
@@ -16,8 +18,8 @@ public class Black_hole_missile_manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        missile = (GameObject)Resources.Load("Missile");
-        text_manager = GameObject.Find("Text_Manager");
+        //missile = (GameObject)Resources.Load("Missile");
+        //text_manager = GameObject.Find("Text_Manager");
         text_script = text_manager.GetComponent<Text_Manager>();
         missile_shot = true;
     }
