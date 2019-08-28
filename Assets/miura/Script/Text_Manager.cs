@@ -30,7 +30,7 @@ public class Text_Manager : MonoBehaviour
     void Start()
     {
         tera_hp = 100;
-        bullet_count = 5;
+        bullet_count = 15;
     }
 
     // Update is called once per frame
@@ -39,7 +39,7 @@ public class Text_Manager : MonoBehaviour
         Tera_HP();
         Energy_Gage();
         Bullet_Gage();
-        Bullet_Charge();
+        //Bullet_Charge();
     }
 
     private void Tera_HP()

@@ -57,7 +57,7 @@ public class tera_controller : MonoBehaviour
             }
             else
             {
-                gravityConst_max = 10f;                                                                  // 引力の強さ
+                gravityConst_max = 30f;                                                                  // 引力の強さ
                 Vector3 distance = transform.position - enemy_copy.transform.position;                   // 2物体間の距離(座標)
                 Vector3 forceObject = gravityConst_max * distance / Mathf.Pow(distance.magnitude, 3);    // 移動する物体にかかる力
                 enemy_copy.GetComponent<Rigidbody>().AddForce(forceObject, ForceMode.Force);             // 物体にかける力

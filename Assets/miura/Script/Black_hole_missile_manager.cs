@@ -11,7 +11,7 @@ public class Black_hole_missile_manager : MonoBehaviour
     [SerializeField]
     GameObject text_manager;         // テキストマネージャーの取得
     Text_Manager text_script;        // テキストマネージャーのスクリプトの取得
-    public float relord_time = 3;    // 次弾撃てるまでの時間
+    public float relord_time = 0f; // 次弾撃てるまでの時間
     float time;                      // 時間
     bool missile_shot;               // ミサイルを発射してるかしてないか
 
@@ -41,19 +41,19 @@ public class Black_hole_missile_manager : MonoBehaviour
                 script = missile_copy.GetComponent<missile_controller>();                                  // ミサイルのプレハブについているスクリプトの取得
                 script.position = Input.mousePosition;                                                     // マウス位置座標を格納する
                 text_script.bullet_count -= 1;                                                             // 残弾を１減らす
-                missile_shot = false;
+                //missile_shot = false;
             }
         }
-        else
-        {
-            time += Time.deltaTime;
+        //else
+        //{
+        //    time += Time.deltaTime;
 
-            if (time >= relord_time)
-            {
-                missile_shot = true;
-                time = 0f;
-            }
-        }
+        //    if (time >= relord_time)
+        //    {
+        //        missile_shot = true;
+        //        time = 0f;
+        //    }
+        //}
 
     }
 }

@@ -67,7 +67,7 @@ public class missile_controller : MonoBehaviour
 
         //Debug.Log(distance);
 
-        time = distance / 2;
+        time = distance / 15;
 
         // 指定された時間に対して経過した時間の割合
         if (ratio <= 1)
@@ -76,7 +76,7 @@ public class missile_controller : MonoBehaviour
         }
 
         // ワールド座標に変換されたマウス座標と追従させたいオブジェクトの距離を測り、それを割る速度したものを現在位置に加算していく
-        this.transform.position = Vector3.Lerp(base_missile_pos, screenToWorldPointPosition, ratio);
+        transform.position = Vector3.Lerp(base_missile_pos, screenToWorldPointPosition, ratio);
 
         Vector3 diff = (screenToWorldPointPosition - transform.position);
 
@@ -87,7 +87,7 @@ public class missile_controller : MonoBehaviour
     {
         if (missile_pop == true)
         {
-            if (this.transform.position == screenToWorldPointPosition)
+            if (transform.position == screenToWorldPointPosition)
             {
                 // ブラックホールの生成
                 black_hole_copy = Instantiate(black_hole, transform.position, Quaternion.identity);

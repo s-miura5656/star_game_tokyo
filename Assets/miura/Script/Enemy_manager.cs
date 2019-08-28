@@ -45,7 +45,7 @@ public class Enemy_manager : MonoBehaviour
     private GameObject enemy_Metal;
 
     // エネミーパラメーターのスクリプトを取得
-    private enemy_controller script;
+    private old_enemy_controller script;
 
     // ランダム
     private int RANDOM_pattern;
@@ -75,7 +75,7 @@ public class Enemy_manager : MonoBehaviour
     {
         time_ += Time.deltaTime;
 
-        if (time_ >= generator_time && enemy_count <= 10)
+        if (time_ >= generator_time && enemy_count <= 20)
         {
             random = Random.Range(Type_min, Type_max);
 
@@ -106,7 +106,7 @@ public class Enemy_manager : MonoBehaviour
         {
             case Enemy_Type.STONE:
                 enemy_copy = Instantiate(enemy_Stone, new Vector3(0f, 13f, 0f), transform.rotation);
-                script = enemy_copy.GetComponent<enemy_controller>();
+                script = enemy_copy.GetComponent<old_enemy_controller>();
                     
                 enemy_list.Add(enemy_copy);
                 break;
@@ -125,7 +125,7 @@ public class Enemy_manager : MonoBehaviour
     public void Enemy_division(Vector3 pop_pos)
     {
         enemy_copy = Instantiate(enemy_Division, pop_pos, transform.rotation);
-        script = enemy_copy.GetComponent<enemy_controller>();
+        script = enemy_copy.GetComponent<old_enemy_controller>();
         enemy_list.Add(enemy_copy);
         script.make_division_state = true;
     }

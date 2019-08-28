@@ -15,7 +15,7 @@ public class Black_Hole_controller : MonoBehaviour
     GameObject object_manager;
     Black_hole_missile_manager Black_Hole_Missile_s;
 
-    private float size = 5f; // ブラックホールの最大サイズ
+    private float size = 3f; // ブラックホールの最大サイズ
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +30,7 @@ public class Black_Hole_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        centerPosition = this.transform.position;
+        centerPosition = transform.position;
 
         //Attraction();
         Black_hole_size();
@@ -64,7 +64,8 @@ public class Black_Hole_controller : MonoBehaviour
     {
         if (scale_switch == true)
         {
-            scale += 0.1f;
+            scale += Time.deltaTime * size;
+
             transform.localScale = new Vector3(scale, scale, scale);
 
             if (scale >= size)
@@ -74,7 +75,8 @@ public class Black_Hole_controller : MonoBehaviour
         }
         else if (scale_switch == false)
         {
-            scale -= 0.1f;
+            scale -= Time.deltaTime * size;
+
             transform.localScale = new Vector3(scale, scale, scale);
 
             if (scale <= 0)
