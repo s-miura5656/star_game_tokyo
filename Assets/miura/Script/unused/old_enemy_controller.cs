@@ -93,17 +93,17 @@ public class old_enemy_controller : MonoBehaviour
         enemy_Manager_script = GameObject.Find("Object_Manager").GetComponent<Enemy_manager>();
         rigidbody = GetComponent<Rigidbody>();
 
-        if (make_division_state == false)
-        {
-            Random_number();
-            Enemy_Pattern_First();
-            Enemy_move_size();
-        }
-        else
-        {
-            SIZE_PATTERN = 3;
-            Enemy_move_size();
-        }
+        //if (make_division_state == false)
+        //{
+        //    Random_number();
+        //    Enemy_Pattern_First();
+        //    Enemy_move_size();
+        //}
+        //else
+        //{
+        //    SIZE_PATTERN = 3;
+        //    Enemy_move_size();
+        //}
 
 
     }
@@ -149,48 +149,48 @@ public class old_enemy_controller : MonoBehaviour
     /// <summary>
     /// 敵の移動とサイズ
     /// </summary>
-    public void Enemy_move_size()
-    {
-        switch (SIZE_PATTERN)
-        {
-            case 0: // 分裂前のSサイズ
-                transform.localScale = new Vector3(size_S, size_S, size_S);
-                rigidbody.AddForce(speed_S, ForceMode.Impulse);
-                break;
-            case 1: // 分裂前のMサイズ
-                transform.localScale = new Vector3(size_M, size_M, size_M);
-                rigidbody.AddForce(speed_M, ForceMode.Impulse);
-                break;
-            case 2: // 分裂前のLサイズ
-                transform.localScale = new Vector3(size_L, size_L, size_L);
-                rigidbody.AddForce(speed_L, ForceMode.Impulse);
-                enemy_Manager_script.L_max_count ++;
-                break;
-            case 3: // 分裂した時のサイズ
-                transform.localScale = new Vector3(size_S, size_S, size_S);
-                rigidbody.AddForce(speed_Division, ForceMode.Impulse);
-                break;
-        }
-    }
+    //public void Enemy_move_size()
+    //{
+    //    switch (SIZE_PATTERN)
+    //    {
+    //        case 0: // 分裂前のSサイズ
+    //            transform.localScale = new Vector3(size_S, size_S, size_S);
+    //            rigidbody.AddForce(speed_S, ForceMode.Impulse);
+    //            break;
+    //        case 1: // 分裂前のMサイズ
+    //            transform.localScale = new Vector3(size_M, size_M, size_M);
+    //            rigidbody.AddForce(speed_M, ForceMode.Impulse);
+    //            break;
+    //        case 2: // 分裂前のLサイズ
+    //            transform.localScale = new Vector3(size_L, size_L, size_L);
+    //            rigidbody.AddForce(speed_L, ForceMode.Impulse);
+    //            enemy_Manager_script.L_max_count ++;
+    //            break;
+    //        case 3: // 分裂した時のサイズ
+    //            transform.localScale = new Vector3(size_S, size_S, size_S);
+    //            rigidbody.AddForce(speed_Division, ForceMode.Impulse);
+    //            break;
+    //    }
+    //}
 
     /// <summary>
     /// ランダムな変数の処理(分裂前)
     /// </summary>
-    void Random_number()
-    {
-        if (enemy_Manager_script.L_max_count < 2)
-        {
-            SIZE_PATTERN = Random.Range(0, 3);
-        }
-        else
-        {
-            SIZE_PATTERN = Random.Range(0, 2);
-        }
+    //void Random_number()
+    //{
+    //    if (enemy_Manager_script.L_max_count < 2)
+    //    {
+    //        SIZE_PATTERN = Random.Range(0, 3);
+    //    }
+    //    else
+    //    {
+    //        SIZE_PATTERN = Random.Range(0, 2);
+    //    }
 
-        pos_X_Random = Random.Range(-10f, 10f);
-        pos_Y_Random = Random.Range(10f, 13f);
-        START_PATTERN = Random.Range(0, 3);
-    }
+    //    pos_X_Random = Random.Range(-10f, 10f);
+    //    pos_Y_Random = Random.Range(10f, 13f);
+    //    START_PATTERN = Random.Range(0, 3);
+    //}
 
     /// <summary>
     /// 敵の発生位置
@@ -279,9 +279,9 @@ public class old_enemy_controller : MonoBehaviour
         {
             if (division_state == false)
             {
-                enemy_Manager_script.Enemy_division(transform.position + new Vector3(0.2f, 0f, 0f));
-                enemy_Manager_script.Enemy_division(transform.position + new Vector3(0f, -0.2f, 0f));
-                enemy_Manager_script.Enemy_division(transform.position + new Vector3(-0.2f, 0f, 0f));
+                //enemy_Manager_script.Enemy_division(transform.position + new Vector3(0.2f, 0f, 0f));
+                //enemy_Manager_script.Enemy_division(transform.position + new Vector3(0f, -0.2f, 0f));
+                //enemy_Manager_script.Enemy_division(transform.position + new Vector3(-0.2f, 0f, 0f));
                 division_state = true;
             }
             

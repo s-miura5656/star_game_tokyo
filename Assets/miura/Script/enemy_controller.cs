@@ -28,18 +28,23 @@ public class enemy_controller : MonoBehaviour
 
     // 二点間の間を進む割合の変数
     private float ratio;
+
+    // ルートのパターンを決める変数
+    private int route_pattern;
+
     // Start is called before the first frame update
     void Start()
     {
         Text_manager = GameObject.Find("Text_Manager");
         text_script = Text_manager.GetComponent<Text_Manager>();
-        base_pos = transform.position;
+        enemy_list = GameObject.Find("Object_Manager").GetComponent<Enemy_manager>().enemy_list;
+        Enemy_route();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Enemy_Move(base_pos, end_pos);
+        Enemy_Move();
     }
 
     /// <summary>
@@ -72,7 +77,7 @@ public class enemy_controller : MonoBehaviour
     /// <summary>
     /// 敵の移動
     /// </summary>
-    public void Enemy_Move(Vector3 base_pos, Vector3 end_pos)
+    private void Enemy_Move()
     {
         elapsed_time += Time.deltaTime;
 
@@ -80,7 +85,7 @@ public class enemy_controller : MonoBehaviour
 
         //Debug.Log(distance);
 
-        time = distance / 15;
+        time = distance / 5;
 
         // 指定された時間に対して経過した時間の割合
         if (ratio <= 1)
@@ -91,4 +96,106 @@ public class enemy_controller : MonoBehaviour
         // 始点から終点までの移動処理
         transform.position = Vector3.Lerp(base_pos, end_pos, ratio);
     }
+
+    /// <summary>
+    /// 敵の移動ルートを決める始点と終点
+    /// </summary>
+    private void Enemy_route()
+    {
+        base_pos = transform.position;
+
+        switch (route_pattern)
+        {
+            case 0:
+                end_pos = new Vector3(6.5f, -12f, 0f);
+                break;
+            case 1:
+                end_pos = new Vector3(6f, -12f, 0f);
+                break;
+            case 2:
+                end_pos = new Vector3(5.5f, -12f, 0f);
+                break;
+            case 3:
+                end_pos = new Vector3(5f, -12f, 0f);
+                break;
+            case 4:
+                end_pos = new Vector3(4.5f, -12f, 0f);
+                break;
+            case 5:
+                end_pos = new Vector3(4f, -12f, 0f);
+                break;
+            case 6:
+                end_pos = new Vector3(3.5f, -12f, 0f);
+                break;
+            case 7:
+                end_pos = new Vector3(3f, -12f, 0f);
+                break;
+            case 8:
+                end_pos = new Vector3(2.5f, -12f, 0f);
+                break;
+            case 9:
+                end_pos = new Vector3(2f, -12f, 0f);
+                break;
+            case 10:
+                end_pos = new Vector3(1.5f, -12f, 0f);
+                break;
+            case 11:
+                end_pos = new Vector3(1f, -12f, 0f);
+                break;
+            case 12:
+                end_pos = new Vector3(0.5f, -12f, 0f);
+                break;
+            case 13:
+                end_pos = new Vector3(0f, -12f, 0f);
+                break;
+            case 14:
+                end_pos = new Vector3(-0.5f, -12f, 0f);
+                break;
+            case 15:
+                end_pos = new Vector3(-1f, -12f, 0f);
+                break;
+            case 16:
+                end_pos = new Vector3(-1.5f, -12f, 0f);
+                break;
+            case 17:
+                end_pos = new Vector3(-2f, -12f, 0f);
+                break;
+            case 18:
+                end_pos = new Vector3(-2.5f, -12f, 0f);
+                break;
+            case 19:
+                end_pos = new Vector3(-3f, -12f, 0f);
+                break;
+            case 20:
+                end_pos = new Vector3(-3.5f, -12f, 0f);
+                break;
+            case 21:
+                end_pos = new Vector3(-4f, -12f, 0f);
+                break;
+            case 22:
+                end_pos = new Vector3(-4.5f, -12f, 0f);
+                break;
+            case 23:
+                end_pos = new Vector3(-5f, -12f, 0f);
+                break;
+            case 24:
+                end_pos = new Vector3(-5.5f, -12f, 0f);
+                break;
+            case 25:
+                end_pos = new Vector3(-6f, -12f, 0f);
+                break;
+            case 26:
+                end_pos = new Vector3(-6.5f, -12f, 0f);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// ルート決めるパターンの数字を返す
+    /// </summary>
+    /// <param name="number">パターン番号</param>
+    /// <returns></returns>
+    public int Route_pattern(int number) { route_pattern = number; return route_pattern; }
 }
+
+    

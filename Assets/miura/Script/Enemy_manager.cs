@@ -28,7 +28,7 @@ public class Enemy_manager : MonoBehaviour
     private int Type_min = 0;
 
     // ランダムの最大値
-    private int Type_max = 2;
+    private int Type_max = 27;
 
     // 敵のタイプ
     private int stone = 0;
@@ -41,11 +41,9 @@ public class Enemy_manager : MonoBehaviour
 
     // エネミーパラメーター付きのオブジェクトを取得
     private GameObject enemy_Stone;
-    private GameObject enemy_Division;
-    private GameObject enemy_Metal;
-
+    
     // エネミーパラメーターのスクリプトを取得
-    private old_enemy_controller script;
+    private enemy_controller script;
 
     // ランダム
     private int RANDOM_pattern;
@@ -55,18 +53,9 @@ public class Enemy_manager : MonoBehaviour
     // 敵を出した数
     private int enemy_count;
 
-    // Lの生成数を制限する変数
-    [System.NonSerialized]
-    public int L_max_count;
-
-
     private void Start()
     {
         enemy_Stone = (GameObject)Resources.Load("Stone");
-
-        enemy_Division = (GameObject)Resources.Load("Stone_2");
-
-        enemy_Metal = (GameObject)Resources.Load("Metal");
 
         generator_time = 1.5f;
     }
@@ -75,20 +64,11 @@ public class Enemy_manager : MonoBehaviour
     {
         time_ += Time.deltaTime;
 
-        if (time_ >= generator_time && enemy_count <= 20)
+        if (time_ >= generator_time && enemy_count < 20)
         {
             random = Random.Range(Type_min, Type_max);
 
-            if (random == stone)
-            {
-                type = Enemy_Type.STONE;
-                Enemy_Generator(type);
-            }
-            else
-            {
-                type = Enemy_Type.METAL;
-                Enemy_Generator(type);
-            }
+            Enemy_Generator();
 
             enemy_count += 1;
 
@@ -99,38 +79,13 @@ public class Enemy_manager : MonoBehaviour
     /// <summary>
     /// 敵の生成
     /// </summary>
-    /// <param name="type">敵の種類</param>
-    void Enemy_Generator(Enemy_Type type)
+    void Enemy_Generator()
     {
-        switch (type)
-        {
-            case Enemy_Type.STONE:
-                enemy_copy = Instantiate(enemy_Stone, new Vector3(0f, 13f, 0f), transform.rotation);
-                script = enemy_copy.GetComponent<old_enemy_controller>();
-                    
-                enemy_list.Add(enemy_copy);
-                break;
-
-            case Enemy_Type.METAL:
-                enemy_copy = Instantiate(enemy_Metal, new Vector3(0f, 13f, 0f), transform.rotation);
-                enemy_list.Add(enemy_copy);
-                break;
-        } 
-    }
-
-    
-    /// <summary>
-    /// 分裂
-    /// </summary>
-    public void Enemy_division(Vector3 pop_pos)
-    {
-        enemy_copy = Instantiate(enemy_Division, pop_pos, transform.rotation);
-        script = enemy_copy.GetComponent<old_enemy_controller>();
+        enemy_copy = Instantiate(enemy_Stone, new Vector3(0f, 13f, 0f), transform.rotation);
+        script = enemy_copy.GetComponent<enemy_controller>();
+        script.Route_pattern(random);
         enemy_list.Add(enemy_copy);
-        script.make_division_state = true;
     }
-
-    
 }
 
 

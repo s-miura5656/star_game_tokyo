@@ -32,7 +32,7 @@ public class tera_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Attraction();
+        //Attraction();
         Earth_rotation();
     }
 

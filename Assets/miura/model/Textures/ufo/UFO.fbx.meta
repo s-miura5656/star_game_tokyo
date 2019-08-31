@@ -1,44 +1,53 @@
 fileFormatVersion: 2
-guid: d5c901b3b82bf594790e989b674dea7e
+guid: 442438dd06a9e85468c649612c5cb232
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: pCube1
-    100004: pCube2
-    100006: pCube3
-    100008: pCylinder1
-    100010: pCylinder2
-    100012: pCylinder3
-    100014: pSphere1
-    100016: pSphere2
-    100018: transform1
-    100020: transform2
-    100022: transform3
-    100024: transform4
-    100026: transform5
-    100028: transform6
-    100030: transform7
-    400000: //RootNode
-    400002: pCube1
-    400004: pCube2
-    400006: pCube3
-    400008: pCylinder1
-    400010: pCylinder2
-    400012: pCylinder3
-    400014: pSphere1
-    400016: pSphere2
-    400018: transform1
-    400020: transform2
-    400022: transform3
-    400024: transform4
-    400026: transform5
-    400028: transform6
-    400030: transform7
-    2100000: phong1
-    2300000: pCube3
-    3300000: pCube3
-    4300000: pCube3
+    100000: pCylinder2
+    100002: pCylinder3
+    100004: pCylinder5
+    100006: pCylinder7
+    100008: pSphere6
+    100010: pSphere7
+    100012: pSphere8
+    100014: pSphere9
+    100016: //RootNode
+    400000: pCylinder2
+    400002: pCylinder3
+    400004: pCylinder5
+    400006: pCylinder7
+    400008: pSphere6
+    400010: pSphere7
+    400012: pSphere8
+    400014: pSphere9
+    400016: //RootNode
+    2100000: lambert1
+    2100002: phong2
+    2100004: phong1
+    2300000: pCylinder2
+    2300002: pCylinder3
+    2300004: pCylinder5
+    2300006: pCylinder7
+    2300008: pSphere6
+    2300010: pSphere7
+    2300012: pSphere8
+    2300014: pSphere9
+    3300000: pCylinder2
+    3300002: pCylinder3
+    3300004: pCylinder5
+    3300006: pCylinder7
+    3300008: pSphere6
+    3300010: pSphere7
+    3300012: pSphere8
+    3300014: pSphere9
+    4300000: pCylinder2
+    4300002: pCylinder3
+    4300004: pCylinder5
+    4300006: pSphere6
+    4300008: pCylinder7
+    4300010: pSphere7
+    4300012: pSphere8
+    4300014: pSphere9
   externalObjects: {}
   materials:
     importMaterials: 1
