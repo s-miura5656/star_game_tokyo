@@ -32,18 +32,35 @@ public class missile_controller : MonoBehaviour
     private bool missile_pop;
     // 複製したブラックホール
     private GameObject black_hole_copy;
+    // 複製したブラックホールのスクリプト
+    private Black_Hole_controller copy_script;
     // prefabの取得のための変数
     [SerializeField]
     private GameObject black_hole;
-
+    // ミサイルマネージャーのスクリプト
+    Black_hole_missile_manager missile_Manager_script;
+    // 爆発の爆発の大きさのスイッチ
+    private bool explosion_switch;
 
     // Start is called before the first frame update
     void Start()
     {
         sumTime = 0.0f;
         missile_pop = true;
-        base_missile_pos = new Vector3(0.0f, -12.0f, 0.0f);
+        base_missile_pos = transform.position;
+        missile_Manager_script = GameObject.Find("Object_Manager").GetComponent<Black_hole_missile_manager>();
         //black_hole = (GameObject)Resources.Load("Black_Hole");
+
+        if (missile_Manager_script.missile_Start_number_state() == true)
+        {
+            speed = 15f;
+            explosion_switch = true;
+        }
+        else
+        {
+            speed = 5f;
+            explosion_switch = false;
+        }
     }
 
     // Update is called once per frame
@@ -66,8 +83,8 @@ public class missile_controller : MonoBehaviour
         float distance = Vector3.Distance(base_missile_pos, screenToWorldPointPosition);
 
         //Debug.Log(distance);
-
-        time = distance / 15;
+        
+        time = distance / speed;
 
         // 指定された時間に対して経過した時間の割合
         if (ratio <= 1)
@@ -91,6 +108,17 @@ public class missile_controller : MonoBehaviour
             {
                 // ブラックホールの生成
                 black_hole_copy = Instantiate(black_hole, transform.position, Quaternion.identity);
+                copy_script = black_hole_copy.GetComponent<Black_Hole_controller>();
+
+                if (explosion_switch == true)
+                {
+                    copy_script.size = 4f;
+                }
+                else
+                {
+                    copy_script.size = 7f;
+                }
+
                 missile_pop = false;
                 Destroy(gameObject);
             }
@@ -103,8 +131,19 @@ public class missile_controller : MonoBehaviour
         {
             // ブラックホールの生成
             black_hole_copy = Instantiate(black_hole, transform.position, Quaternion.identity);
+            copy_script = black_hole_copy.GetComponent<Black_Hole_controller>();
+
+            if (explosion_switch == true)
+            {
+                copy_script.size = 3f;
+            }
+            else
+            {
+                copy_script.size = 7f;
+            }
+
             missile_pop = false;
             Destroy(gameObject);
         }
-    }
+    } 
 }

@@ -15,7 +15,7 @@ public class Black_Hole_controller : MonoBehaviour
     GameObject object_manager;
     Black_hole_missile_manager Black_Hole_Missile_s;
 
-    private float size = 3f; // ブラックホールの最大サイズ
+    public float size;                 // ブラックホールの最大サイズ
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +25,7 @@ public class Black_Hole_controller : MonoBehaviour
         object_manager = GameObject.Find("Object_Manager");
         Black_Hole_Missile_s = object_manager.GetComponent<Black_hole_missile_manager>();
         scale_switch = true;
+
     }
 
     // Update is called once per frame
@@ -85,4 +86,6 @@ public class Black_Hole_controller : MonoBehaviour
             }
         }
     }
+
+    //public float Black_Hole_size_number(float number) { size = number; return size; }
 }

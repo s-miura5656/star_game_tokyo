@@ -32,6 +32,11 @@ public class enemy_controller : MonoBehaviour
     // ルートのパターンを決める変数
     private int route_pattern;
 
+    // スピード
+    private int speed;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -85,7 +90,7 @@ public class enemy_controller : MonoBehaviour
 
         //Debug.Log(distance);
 
-        time = distance / 5;
+        time = distance / speed;
 
         // 指定された時間に対して経過した時間の割合
         if (ratio <= 1)
@@ -107,85 +112,43 @@ public class enemy_controller : MonoBehaviour
         switch (route_pattern)
         {
             case 0:
-                end_pos = new Vector3(6.5f, -12f, 0f);
-                break;
-            case 1:
                 end_pos = new Vector3(6f, -12f, 0f);
                 break;
-            case 2:
-                end_pos = new Vector3(5.5f, -12f, 0f);
-                break;
-            case 3:
+            case 1:
                 end_pos = new Vector3(5f, -12f, 0f);
                 break;
-            case 4:
-                end_pos = new Vector3(4.5f, -12f, 0f);
-                break;
-            case 5:
+            case 2:
                 end_pos = new Vector3(4f, -12f, 0f);
                 break;
-            case 6:
-                end_pos = new Vector3(3.5f, -12f, 0f);
-                break;
-            case 7:
+            case 3:
                 end_pos = new Vector3(3f, -12f, 0f);
                 break;
-            case 8:
-                end_pos = new Vector3(2.5f, -12f, 0f);
-                break;
-            case 9:
+            case 4:
                 end_pos = new Vector3(2f, -12f, 0f);
                 break;
-            case 10:
-                end_pos = new Vector3(1.5f, -12f, 0f);
-                break;
-            case 11:
+            case 5:
                 end_pos = new Vector3(1f, -12f, 0f);
                 break;
-            case 12:
-                end_pos = new Vector3(0.5f, -12f, 0f);
-                break;
-            case 13:
+            case 6:
                 end_pos = new Vector3(0f, -12f, 0f);
                 break;
-            case 14:
-                end_pos = new Vector3(-0.5f, -12f, 0f);
-                break;
-            case 15:
+            case 7:
                 end_pos = new Vector3(-1f, -12f, 0f);
                 break;
-            case 16:
-                end_pos = new Vector3(-1.5f, -12f, 0f);
-                break;
-            case 17:
+            case 8:
                 end_pos = new Vector3(-2f, -12f, 0f);
                 break;
-            case 18:
-                end_pos = new Vector3(-2.5f, -12f, 0f);
-                break;
-            case 19:
+            case 9:
                 end_pos = new Vector3(-3f, -12f, 0f);
                 break;
-            case 20:
-                end_pos = new Vector3(-3.5f, -12f, 0f);
-                break;
-            case 21:
+            case 10:
                 end_pos = new Vector3(-4f, -12f, 0f);
                 break;
-            case 22:
-                end_pos = new Vector3(-4.5f, -12f, 0f);
-                break;
-            case 23:
+            case 11:
                 end_pos = new Vector3(-5f, -12f, 0f);
                 break;
-            case 24:
-                end_pos = new Vector3(-5.5f, -12f, 0f);
-                break;
-            case 25:
+            case 12:
                 end_pos = new Vector3(-6f, -12f, 0f);
-                break;
-            case 26:
-                end_pos = new Vector3(-6.5f, -12f, 0f);
                 break;
         }
     }
@@ -196,6 +159,13 @@ public class enemy_controller : MonoBehaviour
     /// <param name="number">パターン番号</param>
     /// <returns></returns>
     public int Route_pattern(int number) { route_pattern = number; return route_pattern; }
+
+    /// <summary>
+    /// 敵の移動速度
+    /// </summary>
+    /// <param name="number">速度の数値</param>
+    /// <returns></returns>
+    public int Enemy_Speed(int number) { speed = number; return speed; }
 }
 
     
