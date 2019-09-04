@@ -41,12 +41,12 @@ public class Move : MonoBehaviour
 
             if (distance <= 0.2f)
             {
-                
+
                 particle.Play();
-                  
+
             }
 
-            if(distance <= 0.1f)
+            if (distance <= 0.1f)
             {
                 Destroy(this.gameObject);
             }
@@ -62,22 +62,22 @@ public class Move : MonoBehaviour
             //            this.transform.localScale.x);
             //    }
 
-                //    if((this.transform.localScale.x >= 2.5f))
-                //    {
-                //        Destroy(this.gameObject);
+            //    if((this.transform.localScale.x >= 2.5f))
+            //    {
+            //        Destroy(this.gameObject);
 
-                //    } 
+            //    } 
 
 
 
-                //}
+            //}
         }
     }
     //void OnCollisionEnter(Collision collision)
     //{
     //    if (collision.gameObject.CompareTag("enemy"))
     //    {
-            
+
     //        Destroy(collision.gameObject);
 
     //        //GameObject tama = Instantiate(tamaPrefab) as GameObject;
