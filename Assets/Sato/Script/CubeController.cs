@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CubeController : MonoBehaviour
 {
- 
+
     void Update()
     {
 
@@ -16,7 +16,7 @@ public class CubeController : MonoBehaviour
             col.transform.parent = gameObject.transform;
             col.rigidbody.velocity = Vector3.zero;
             col.rigidbody.isKinematic = true;
-            col.gameObject.GetComponent<move2>().enabled = false;
+            //col.gameObject.GetComponent<move2>().enabled = false;
 
 
         }
