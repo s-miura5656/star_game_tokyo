@@ -113,10 +113,16 @@ public class missile_controller : MonoBehaviour
                 if (explosion_switch == true)
                 {
                     copy_script.size = 4f;
+                    copy_script.scale_speed_first = 100f;
+                    copy_script.scale_speed_end = 5;
+                    copy_script.waiting_time_number = 0.5f;
                 }
                 else
                 {
                     copy_script.size = 7f;
+                    copy_script.scale_speed_first = 100f;
+                    copy_script.scale_speed_end = 2;
+                    copy_script.waiting_time_number = 1f;
                 }
 
                 missile_pop = false;
@@ -135,11 +141,15 @@ public class missile_controller : MonoBehaviour
 
             if (explosion_switch == true)
             {
-                copy_script.size = 3f;
+                copy_script.size = 4f;
+                copy_script.scale_speed_first = 100f;
+                copy_script.scale_speed_end = 5;
             }
             else
             {
                 copy_script.size = 7f;
+                copy_script.scale_speed_first = 100f;
+                copy_script.scale_speed_end = 2;
             }
 
             missile_pop = false;

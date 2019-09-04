@@ -14,8 +14,15 @@ public class Black_Hole_controller : MonoBehaviour
 
     GameObject object_manager;
     Black_hole_missile_manager Black_Hole_Missile_s;
-
+    [System.NonSerialized]
     public float size;                 // ブラックホールの最大サイズ
+    [System.NonSerialized]
+    public float scale_speed_first;    // 爆発の拡大速度
+    [System.NonSerialized]
+    public float scale_speed_end;      // 爆発の縮小速度
+    [System.NonSerialized]
+    public float waiting_time_number;  // 爆発の待機時間を決める変数
+    private float waiting_time;        // 爆発の待機時間を図る
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +32,6 @@ public class Black_Hole_controller : MonoBehaviour
         object_manager = GameObject.Find("Object_Manager");
         Black_Hole_Missile_s = object_manager.GetComponent<Black_hole_missile_manager>();
         scale_switch = true;
-
     }
 
     // Update is called once per frame
@@ -35,6 +41,7 @@ public class Black_Hole_controller : MonoBehaviour
 
         //Attraction();
         Black_hole_size();
+        
     }
 
     void Attraction() // 引力の関数
@@ -65,7 +72,7 @@ public class Black_Hole_controller : MonoBehaviour
     {
         if (scale_switch == true)
         {
-            scale += Time.deltaTime * size;
+            scale += Time.deltaTime * scale_speed_first;
 
             transform.localScale = new Vector3(scale, scale, scale);
 
@@ -76,16 +83,24 @@ public class Black_Hole_controller : MonoBehaviour
         }
         else if (scale_switch == false)
         {
-            scale -= Time.deltaTime * size;
+            waiting_time += 0.1f;
 
-            transform.localScale = new Vector3(scale, scale, scale);
-
-            if (scale <= 0)
+            if (waiting_time >= waiting_time_number)
             {
-                Destroy(gameObject);
-            }
+                scale -= Time.deltaTime * scale_speed_end;
+
+                transform.localScale = new Vector3(scale, scale, scale);
+
+                if (scale <= 0)
+                {
+                    Destroy(gameObject);
+                }
+            }  
         }
     }
 
+    private void fade_alpha()
+    {
+    }
     //public float Black_Hole_size_number(float number) { size = number; return size; }
 }

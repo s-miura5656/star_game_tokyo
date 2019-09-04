@@ -15,12 +15,12 @@
 		 };
 
 		 void surf(Input IN, inout SurfaceOutputStandard o) {
-			 fixed4 baseColor = fixed4(0.7, 0, 0, 1);
-			 fixed4 rimColor = fixed4(0.7,0.5,0,1);
+			 fixed4 baseColor = fixed4(1, 1, 1, 1);
+			 fixed4 rimColor = fixed4(0.1,0.1,0.7,1);
 
 			 o.Albedo = baseColor;
 			 float rim = 1 - saturate(dot(IN.viewDir, o.Normal));
-				 o.Emission = rimColor * pow(rim, 1.5);
+				 o.Emission = rimColor * pow(rim, 1);
 		 }
 
 		 ENDCG
