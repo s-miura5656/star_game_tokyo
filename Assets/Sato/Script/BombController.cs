@@ -50,7 +50,7 @@ public class BombController : MonoBehaviour
             rend.enabled = true;
 
             // 座標
-            Vector3 endpos = new Vector3(-1.0f, 0.0f, -13.0f);
+            Vector3 endpos = new Vector3(0.0f, -29.0f, 16.0f);
 
             //スピード
             float step = speed * Time.deltaTime;

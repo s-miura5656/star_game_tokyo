@@ -16,10 +16,10 @@ public class UfoController : MonoBehaviour
     void Start()
     {
         this.transform.position = new Vector3(16.0f, 1.3f, Random.Range(20.0f, 36.0f));
-        bezier_start = new Vector3(16.0f, 1.3f, Random.Range(20.0f, 36.0f));
-        bezier_control1 = new Vector3(7.0f, 1.3f, 17.0f);
-        bezier_control2 = new Vector3(-5.0f, 1.3f, -1.0f);
-        bezier_end = new Vector3(-21.0f, 1.3f, Random.Range(39.0f, 45.0f));
+        bezier_start = new Vector3(-24.0f, Random.Range(6.0f, 19.0f), 1.23f);
+        bezier_control1 = new Vector3(-9.0f, 2.0f, 1.23f);
+        bezier_control2 = new Vector3(10.0f, 0.0f, 1.23f);
+        bezier_end = new Vector3(26.0f, Random.Range(19.0f, 28.0f), 1.23f);
 　　}
 
     // Update is called once per frame

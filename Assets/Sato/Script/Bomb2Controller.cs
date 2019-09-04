@@ -38,7 +38,7 @@ public class Bomb2Controller : MonoBehaviour
             rend2.enabled = true;
 
             // 座標
-            Vector3 endpos = new Vector3(-1.0f, 0.0f, -13.0f);
+            Vector3 endpos = new Vector3(0.0f, -29.0f, 16.0f);
 
             //スピード
             float step2 = speed2 * Time.deltaTime;
