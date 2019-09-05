@@ -8,11 +8,7 @@ public class enemy_controller : MonoBehaviour
     private int START_PATTERN;
 
     // リスト
-    List<GameObject> enemy_list;
-
-    // エネルギーゲージ
-    private GameObject Text_manager;
-    private Text_Manager text_script;
+    //List<GameObject> enemy_list;
 
     // 敵の初期配置を記録
     private Vector3 base_pos;
@@ -35,14 +31,10 @@ public class enemy_controller : MonoBehaviour
     // スピード
     private int speed;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
-        Text_manager = GameObject.Find("Text_Manager");
-        text_script = Text_manager.GetComponent<Text_Manager>();
-        enemy_list = GameObject.Find("Object_Manager").GetComponent<Enemy_manager>().enemy_list;
+        //enemy_list = GameObject.Find("UFO").GetComponent<Enemy_manager>().enemy_list;
         Enemy_route();
     }
 
@@ -61,10 +53,12 @@ public class enemy_controller : MonoBehaviour
         if (other.gameObject.tag == "Player") // 爆風に当たったらエネルギーを１手に入れて消える
         {
             Destroy_Enemy();
-            text_script.energy_count += 1;
         }
 
-        if (other.gameObject.tag == "Earth") // 地球に当たったら消える
+        if (other.gameObject.tag == "target_1" ||
+            other.gameObject.tag == "target_2" ||
+            other.gameObject.tag == "target_3" ||
+            other.gameObject.tag == "target_4")   // 戦艦に当たったら消える
         {
             Destroy_Enemy();
         }
@@ -76,7 +70,7 @@ public class enemy_controller : MonoBehaviour
     void Destroy_Enemy()
     {
         Destroy(gameObject);
-        enemy_list.Remove(gameObject);
+        //enemy_list.Remove(gameObject);
     }
 
     /// <summary>
@@ -112,43 +106,16 @@ public class enemy_controller : MonoBehaviour
         switch (route_pattern)
         {
             case 0:
-                end_pos = new Vector3(6f, -12f, 0f);
+                end_pos = new Vector3(-5f, -8f, 0f);
                 break;
             case 1:
-                end_pos = new Vector3(5f, -12f, 0f);
+                end_pos = new Vector3(5f, -8f, 0f);
                 break;
             case 2:
-                end_pos = new Vector3(4f, -12f, 0f);
+                end_pos = new Vector3(-2f, -9f, 0f);
                 break;
             case 3:
-                end_pos = new Vector3(3f, -12f, 0f);
-                break;
-            case 4:
-                end_pos = new Vector3(2f, -12f, 0f);
-                break;
-            case 5:
-                end_pos = new Vector3(1f, -12f, 0f);
-                break;
-            case 6:
-                end_pos = new Vector3(0f, -12f, 0f);
-                break;
-            case 7:
-                end_pos = new Vector3(-1f, -12f, 0f);
-                break;
-            case 8:
-                end_pos = new Vector3(-2f, -12f, 0f);
-                break;
-            case 9:
-                end_pos = new Vector3(-3f, -12f, 0f);
-                break;
-            case 10:
-                end_pos = new Vector3(-4f, -12f, 0f);
-                break;
-            case 11:
-                end_pos = new Vector3(-5f, -12f, 0f);
-                break;
-            case 12:
-                end_pos = new Vector3(-6f, -12f, 0f);
+                end_pos = new Vector3(2f, -9f, 0f);
                 break;
         }
     }

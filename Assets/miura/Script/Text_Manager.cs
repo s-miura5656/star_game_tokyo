@@ -6,20 +6,23 @@ using UnityEngine.UI;
 
 public class Text_Manager : MonoBehaviour
 {
-    // HP関連
-    public GameObject HP_text;
-    [System.NonSerialized]
-    public int tera_hp;
+    [SerializeField] // 残り弾数 前左
+    private GameObject remaining_bullet_front_L_text;
+    [SerializeField] // 残り弾数 前右
+    private GameObject remaining_bullet_front_R_text;
+    [SerializeField] // 残り弾数 後左
+    private GameObject remaining_bullet_back_L_text;
+    [SerializeField] // 残り弾数 後右
+    private GameObject remaining_bullet_back_R_text;
 
-    // ENERGY関連
-    public GameObject ENERGY_text;
     [System.NonSerialized]
-    public int energy_count;
-
-    // 残り弾数
-    public GameObject remaining_bullet_text;
+    public int bullet_count_front_L;
     [System.NonSerialized]
-    public int bullet_count;
+    public int bullet_count_front_R;
+    [System.NonSerialized]
+    public int bullet_count_back_L;
+    [System.NonSerialized]
+    public int bullet_count_back_R;
 
     // 残弾回復
     private float time;                       // 時間
@@ -29,48 +32,62 @@ public class Text_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tera_hp = 100;
-        bullet_count = 15;
+        bullet_count_front_L = 15;
+        bullet_count_front_R = 15;
+        bullet_count_back_L = 5;
+        bullet_count_back_R = 5;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Tera_HP();
-        Energy_Gage();
-        Bullet_Gage();
-        //Bullet_Charge();
+        Bullet_Gage_Front_L();
+        Bullet_Gage_Front_R();
+        Bullet_Gage_Back_L();
+        Bullet_Gage_Back_R();
     }
 
-    private void Tera_HP()
+    private void Bullet_Gage_Front_L()
     {
-        Text hp_text = HP_text.GetComponent<Text>();
-        hp_text.text = "HP:" + tera_hp;
+        Text gage_text = remaining_bullet_front_L_text.GetComponent<Text>();
+        gage_text.text = "残弾:" + bullet_count_front_L;
     }
 
-    private void Energy_Gage()
+    private void Bullet_Gage_Front_R()
     {
-        Text energy_text = ENERGY_text.GetComponent<Text>();
-        energy_text.text = "ENERGY:" + energy_count;
+        Text gage_text = remaining_bullet_front_R_text.GetComponent<Text>();
+        gage_text.text = "残弾:" + bullet_count_front_R;
     }
 
-    private void Bullet_Gage()
+    private void Bullet_Gage_Back_L()
     {
-        Text energy_text = remaining_bullet_text.GetComponent<Text>();
-        energy_text.text = "残弾:" + bullet_count;
+        Text gage_text = remaining_bullet_back_L_text.GetComponent<Text>();
+        gage_text.text = "残弾:" + bullet_count_back_L;
     }
 
-    private void Bullet_Charge()
+    private void Bullet_Gage_Back_R()
     {
-        if (bullet_count < 5)
-        {
-            time += Time.deltaTime;
+        Text gage_text = remaining_bullet_back_R_text.GetComponent<Text>();
+        gage_text.text = "残弾:" + bullet_count_back_R;
+    }
 
-            if (time >= recharge_time)
-            {
-                bullet_count += 1;
-                time = 0f;
-            }
-        }
+    public void bullet_front_L_out()
+    {
+        bullet_count_front_L -= 1;
+    }
+
+    public void bullet_front_R_out()
+    {
+        bullet_count_front_R -= 1;
+    }
+
+    public void bullet_back_L_out()
+    {
+        bullet_count_back_L -= 1;
+    }
+
+    public void bullet_back_R_out()
+    {
+        bullet_count_back_R -= 1;
     }
 }

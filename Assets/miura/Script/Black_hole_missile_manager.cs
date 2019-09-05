@@ -23,7 +23,7 @@ public class Black_hole_missile_manager : MonoBehaviour
     // ミサイルを発射してるかしてないか
     private bool missile_shot;
     // ミサイルの発射を決める数字の入っている変数
-    private bool missile_start_number;
+    private int missile_start_number;
     // ミサイルの発射地点
     private Vector3 missile_start_pos;
     // 戦艦後ろ右のオブジェクトを取得
@@ -56,9 +56,28 @@ public class Black_hole_missile_manager : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, 100))
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100f))
         {
             Missile_shot_state = false;
+
+            if (hit.collider.tag == ("target_1"))
+            {
+                missile_start_number = 0;
+            }
+            else if (hit.collider.tag == ("target_2"))
+            {
+                missile_start_number = 1;
+            }
+            else if (hit.collider.tag == ("target_3"))
+            {
+                missile_start_number = 2;
+            }
+            else if (hit.collider.tag == ("target_4"))
+            {
+                missile_start_number = 3;
+            }
         }
         else
         {
@@ -70,16 +89,58 @@ public class Black_hole_missile_manager : MonoBehaviour
     }
 
     /// <summary>
-    /// ミサイルの生成
+    /// ミサイルの生成　前左
     /// </summary>
-    private void Missile_Generater()
+    private void Missile_Generater_front_L()
     {
-        if (Input.GetMouseButtonDown(0) && text_script.bullet_count > 0 && Missile_shot_state == true)
+        if (Input.GetMouseButtonDown(0) && text_script.bullet_count_front_L > 0 && Missile_shot_state == true)
         {
             missile_copy = Instantiate(missile, missile_start_pos, Quaternion.identity);               // ミサイルの複製
             script = missile_copy.GetComponent<missile_controller>();                                  // ミサイルのプレハブについているスクリプトの取得
             script.position = Input.mousePosition;                                                     // マウス位置座標を格納する
-            text_script.bullet_count -= 1;                                                             // 残弾を１減らす
+            text_script.bullet_front_L_out();                                                          // 残弾を１減らす
+        }
+    }
+
+    /// <summary>
+    /// ミサイルの生成　前右
+    /// </summary>
+    private void Missile_Generater_front_R()
+    {
+        if (Input.GetMouseButtonDown(0) && text_script.bullet_count_front_R > 0 && Missile_shot_state == true)
+        {
+            missile_copy = Instantiate(missile, missile_start_pos, Quaternion.identity);               // ミサイルの複製
+            script = missile_copy.GetComponent<missile_controller>();                                  // ミサイルのプレハブについているスクリプトの取得
+            script.position = Input.mousePosition;                                                     // マウス位置座標を格納する
+            text_script.bullet_front_R_out();                                                          // 残弾を１減らす
+        }
+    }
+
+    /// <summary>
+    /// ミサイルの生成　後左
+    /// </summary>
+    private void Missile_Generater_back_L()
+    {
+        if (Input.GetMouseButtonDown(0) && text_script.bullet_count_back_L > 0 && Missile_shot_state == true)
+        {
+            missile_copy = Instantiate(missile, missile_start_pos, Quaternion.identity);               // ミサイルの複製
+            script = missile_copy.GetComponent<missile_controller>();                                  // ミサイルのプレハブについているスクリプトの取得
+            script.position = Input.mousePosition;                                                     // マウス位置座標を格納する
+            text_script.bullet_back_L_out();                                                           // 残弾を１減らす
+        }
+    }
+
+    /// <summary>
+    /// ミサイルの生成　後右
+    /// </summary>
+    private void Missile_Generater_back_R()
+    {
+        if (Input.GetMouseButtonDown(0) && text_script.bullet_count_back_R > 0 && Missile_shot_state == true)
+        {
+            missile_copy = Instantiate(missile, missile_start_pos, Quaternion.identity);               // ミサイルの複製
+            script = missile_copy.GetComponent<missile_controller>();                                  // ミサイルのプレハブについているスクリプトの取得
+            script.position = Input.mousePosition;                                                     // マウス位置座標を格納する
+            text_script.bullet_back_R_out();                                                           // 残弾を１減らす
         }
     }
 
@@ -90,45 +151,35 @@ public class Black_hole_missile_manager : MonoBehaviour
     {
         switch (missile_start_number)
         {
-            case true:
-
-                if (script.screenToWorldPointPosition.x > 0)
-                {
-                    missile_start_pos = new Vector3(-2f, -6f, 0f);
-                }
-                else
-                {
-                    missile_start_pos = new Vector3(2f, -6f, 0f);
-                }
+            case 0:
+                missile_start_pos = Ship_Front_L.transform.position;
+                Missile_Generater_front_L();
                 break;
-
-            case false:
-
-                if (script.screenToWorldPointPosition.x >= 0)
-                {
-                    missile_start_pos = new Vector3(-5f, -9.5f, 0f);
-                }
-                else
-                {
-                    missile_start_pos = new Vector3(5f, -9.5f, 0f);
-                }
+            case 1:
+                missile_start_pos = Ship_Front_R.transform.position;
+                Missile_Generater_front_R();    
+                break;
+            case 2:
+                missile_start_pos = Ship_Back_L.transform.position;
+                Missile_Generater_back_L();
+                break;
+            case 3:
+                missile_start_pos = Ship_Back_R.transform.position;
+                Missile_Generater_back_R();
                 break;
         }
-
-        Missile_Generater();
-
     }
     /// <summary>
     /// ミサイルの発射位置が前か後ろか決める変数を返す関数
     /// </summary>
     /// <param name="number">整数型の数字</param>
     /// <returns></returns>
-    public bool Missile_Start_Number(bool number) { missile_start_number = number; return missile_start_number; }
+    public int Missile_Start_Number(int number) { missile_start_number = number; return missile_start_number; }
 
 
     /// <summary>
     /// ミサイルの発射位置を前か後ろか判断する関数
     /// </summary>
     /// <returns>ミサイルの位置を前か後ろか返す</returns>
-    public bool missile_Start_number_state() { return missile_start_number; }
+    public int missile_Start_number_state() { return missile_start_number; }
 }

@@ -10,7 +10,7 @@ public class Black_Hole_controller : MonoBehaviour
     float scale;                        // ブラックホールの拡大値
     public bool scale_switch;           // 拡大の拡大縮小切り替え
 
-    List<GameObject> enemy_list;
+    //List<GameObject> enemy_list;
 
     GameObject object_manager;
     Black_hole_missile_manager Black_Hole_Missile_s;
@@ -27,7 +27,7 @@ public class Black_Hole_controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemy_list = GameObject.Find("Object_Manager").GetComponent<Enemy_manager>().enemy_list;
+        //enemy_list = GameObject.Find("Object_Manager").GetComponent<Enemy_manager>().enemy_list;
         scale = 0.0f;
         object_manager = GameObject.Find("Object_Manager");
         Black_Hole_Missile_s = object_manager.GetComponent<Black_hole_missile_manager>();
@@ -44,29 +44,29 @@ public class Black_Hole_controller : MonoBehaviour
         
     }
 
-    void Attraction() // 引力の関数
-    {
-        foreach (GameObject planet in enemy_list)
-        {
-            float attraction_distance = Vector3.Distance(centerPosition, planet.transform.position);
+    //void Attraction() // 引力の関数
+    //{
+    //    foreach (GameObject planet in enemy_list)
+    //    {
+    //        float attraction_distance = Vector3.Distance(centerPosition, planet.transform.position);
 
-            //Debug.Log(attraction_distance);
+    //        //Debug.Log(attraction_distance);
 
-            if (attraction_distance <= 2)
-            {
-                Vector3 distance = centerPosition - planet.transform.position;                        // 2物体間の距離(座標)
-                Vector3 forceObject = gravityConst_max * distance / Mathf.Pow(distance.magnitude, 3); // 移動する物体にかかる力
-                planet.GetComponent<Rigidbody>().AddForce(forceObject, ForceMode.Force);              // 物体にかける力
-            }
+    //        if (attraction_distance <= 2)
+    //        {
+    //            Vector3 distance = centerPosition - planet.transform.position;                        // 2物体間の距離(座標)
+    //            Vector3 forceObject = gravityConst_max * distance / Mathf.Pow(distance.magnitude, 3); // 移動する物体にかかる力
+    //            planet.GetComponent<Rigidbody>().AddForce(forceObject, ForceMode.Force);              // 物体にかける力
+    //        }
 
-            if (attraction_distance > 2 && attraction_distance <= 8)
-            {
-                Vector3 distance = centerPosition - planet.transform.position;                          // 2物体間の距離(座標)
-                Vector3 forceObject = (gravityConst_min) * distance / Mathf.Pow(distance.magnitude, 3); // 移動する物体にかかる力
-                planet.GetComponent<Rigidbody>().AddForce(forceObject, ForceMode.Force);                // 物体にかける力
-            } 
-        }
-    }
+    //        if (attraction_distance > 2 && attraction_distance <= 8)
+    //        {
+    //            Vector3 distance = centerPosition - planet.transform.position;                          // 2物体間の距離(座標)
+    //            Vector3 forceObject = (gravityConst_min) * distance / Mathf.Pow(distance.magnitude, 3); // 移動する物体にかかる力
+    //            planet.GetComponent<Rigidbody>().AddForce(forceObject, ForceMode.Force);                // 物体にかける力
+    //        } 
+    //    }
+    //}
 
     public void Black_hole_size() // ミサイルの爆発
     {

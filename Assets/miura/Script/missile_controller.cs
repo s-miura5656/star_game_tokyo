@@ -50,13 +50,23 @@ public class missile_controller : MonoBehaviour
         base_missile_pos = transform.position;
         missile_Manager_script = GameObject.Find("Object_Manager").GetComponent<Black_hole_missile_manager>();
         //black_hole = (GameObject)Resources.Load("Black_Hole");
-
-        if (missile_Manager_script.missile_Start_number_state() == true)
+        position = Input.mousePosition;
+        if (missile_Manager_script.missile_Start_number_state() == 0)
         {
             speed = 15f;
             explosion_switch = true;
         }
-        else
+        else if (missile_Manager_script.missile_Start_number_state() == 1)
+        {
+            speed = 15f;
+            explosion_switch = true;
+        }
+        else if (missile_Manager_script.missile_Start_number_state() == 2)
+        {
+            speed = 5f;
+            explosion_switch = false;
+        }
+        else if (missile_Manager_script.missile_Start_number_state() == 3)
         {
             speed = 5f;
             explosion_switch = false;

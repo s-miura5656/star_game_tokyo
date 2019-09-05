@@ -15,12 +15,12 @@ public class UfoController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.transform.position = new Vector3(16.0f, Random.Range(14f, 20f), 0f);
-        bezier_start = new Vector3(16.0f, Random.Range(14f, 20f), 0f);
-        bezier_control1 = new Vector3(7.0f, 0f, 0f);
-        bezier_control2 = new Vector3(-5.0f, Random.Range(5f, 10f), 0f);
-        bezier_end = new Vector3(-21.0f, Random.Range(14f, 20f), 0f);
-　　}
+        this.transform.position = new Vector3(16.0f, Random.Range(14f, 30f), 0f);
+        bezier_start = new Vector3(16.0f, Random.Range(14f, 30f), 0f);
+        bezier_control1 = new Vector3(7.0f, Random.Range(-5f, 5f), 0f);
+        bezier_control2 = new Vector3(-7.0f, Random.Range(-5f, 5f), 0f);
+        bezier_end = new Vector3(-16.0f, Random.Range(14f, 30f), 0f);
+    }
 
     // Update is called once per frame
     void Update()
@@ -32,7 +32,6 @@ public class UfoController : MonoBehaviour
                bezier_control2,
                 bezier_end,bezier_t);
         bezier_t += ufo_speed;
-
     }
 
 

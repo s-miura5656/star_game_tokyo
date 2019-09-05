@@ -137,7 +137,7 @@ public class old_enemy_controller : MonoBehaviour
         if (other.gameObject.tag == "Player") // 爆風に当たったらエネルギーを１手に入れて消える
         {
             Destroy_Enemy();
-            text_script.energy_count += 1;
+
         }
 
         if (other.gameObject.tag == "Earth") // 地球に当たったら消える
