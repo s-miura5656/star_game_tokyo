@@ -30,7 +30,7 @@
 				 o.Alpha = 0.5;
 			 }
 			 else {
-				 o.Albedo = fixed4(0, 0, 0, 1);
+				 o.Albedo = fixed4(1, 1, 1, 1);
 				 o.Alpha = 0.0;
 			 }
 		 }

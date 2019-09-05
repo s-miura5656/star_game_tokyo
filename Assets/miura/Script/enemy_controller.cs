@@ -4,225 +4,135 @@ using UnityEngine;
 
 public class enemy_controller : MonoBehaviour
 {
-    // 敵のHP
-    [System.NonSerialized]
-    public int HP;
-
-    // 敵の速さ
-    [System.NonSerialized]
-    public float SPEED;
-
-    // 敵の硬さ
-    [System.NonSerialized]
-    public int HARDNESS;
-    [System.NonSerialized]
-    public int METAL = 3;
-
-    // 敵のサイズ
-    [System.NonSerialized]
-    public int SIZE;
-
     // 出現のパターン
-    [System.NonSerialized]
-    public int PATTERN;
-
-    // 敵のオブジェクト
-    [System.NonSerialized]
-    public GameObject enemy;
-
-    // 移動パターン
-    [System.NonSerialized]
-    public float  move_L;
-    [System.NonSerialized]
-    public float  move_R;
-
-    // 敵のサイズ 種類
-    [System.NonSerialized]
-    public float size_S = 0.1f;
-    [System.NonSerialized]
-    public float size_M = 0.3f;
-    [System.NonSerialized]
-    public float size_L = 0.5f;
-
-    // 敵の速度 種類
-    [System.NonSerialized]
-    public float speed_S = -0.005f;
-    [System.NonSerialized]
-    public float speed_M = -0.002f;
-    [System.NonSerialized]
-    public float speed_L = -0.0005f;
-
-    // 敵の発生場所_X 種類
-    [System.NonSerialized]
-    public float pos_X_left = -9f;
-    //[System.NonSerialized]
-    //public float pos_X_center = 0f;
-    [System.NonSerialized]
-    public float pos_X_right = 9f;
-    [System.NonSerialized]
-    public float pos_X_Random;
-
-    // 敵の発生場所_Y 種類
-    //[System.NonSerialized]
-    //public float pos_Y_left = 13f;
-    [System.NonSerialized]
-    public float pos_Y_center = 12f;
-    //[System.NonSerialized]
-    //public float pos_Y_right = 13f;
-    [System.NonSerialized]
-    public float pos_Y_Random;
-
-    // 敵の発生場所_Z
-    [System.NonSerialized]
-    public float pos_Z_ZERO = 0f;
-
-    // 敵の硬さ 種類
-    [System.NonSerialized]
-    public int hardness_Small = 1;
-    [System.NonSerialized]
-    public int hardness_Middle = 3;
-    [System.NonSerialized]
-    public int hardness_Large = 10;
-    [System.NonSerialized]
-    public int hardness_Metal = 100;
-
-    // 地球の位置
-    [System.NonSerialized]
-    public Vector3 earth = new Vector3(0.0f, -12.0f, 0.0f);
-
-    // 等速で進めるための変数
-    [System.NonSerialized]
-    private float sumTime;
-    // 何秒で到達するかの変数
-    [System.NonSerialized]
-    private float time = 5.0f;
-    // 進む割合
-    [System.NonSerialized]
-    private float ratio;
-
-    // リジッドボディの取得
-    [System.NonSerialized]
-    public new Rigidbody rigidbody;
+    private int START_PATTERN;
 
     // リスト
-    List<GameObject> enemy_list;
+    //List<GameObject> enemy_list;
 
+    // 敵の初期配置を記録
+    private Vector3 base_pos;
+
+    // 敵の移動の終点
+    private Vector3 end_pos;
+
+    // 経過した時間の変数
+    private float elapsed_time;
+
+    // 等速で進むための時間の変数
+    private float time;
+
+    // 二点間の間を進む割合の変数
+    private float ratio;
+
+    // ルートのパターンを決める変数
+    private int route_pattern;
+
+    // スピード
+    private int speed;
 
     // Start is called before the first frame update
     void Start()
     {
-        enemy_list = GameObject.Find("Object_Manager").GetComponent<Enemy_manager>().enemy_list;
-        rigidbody = GetComponent<Rigidbody>();
-        pos_X_Random = Random.Range(-8f, 8f);
-        pos_Y_Random = Random.Range(11f, 12f);
-        move_L = Random.Range(0.001f, 0.05f);
-        move_R = Random.Range(-0.001f, -0.05f);
-        Enemy_Size();
-        Enemy_Pattern();
-        Enemy_Hardness();
-        
+        //enemy_list = GameObject.Find("UFO").GetComponent<Enemy_manager>().enemy_list;
+        Enemy_route();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Enemy_move();
-        Screen_Out();
+        Enemy_Move();
     }
 
-    public void Enemy_move() //敵の移動
+    /// <summary>
+    /// 爆風と地球に対しての当たり判定
+    /// </summary>
+    /// <param name="other"> 爆風、地球</param>
+    private void OnTriggerEnter(Collider other)
     {
-        //rigidbody.AddForce(new Vector3(0f, 1f, 0f), ForceMode.Impulse);
-        switch (PATTERN)
+        if (other.gameObject.tag == "Player") // 爆風に当たったらエネルギーを１手に入れて消える
         {
-            case 0:
-                transform.position += new Vector3(move_L, SPEED, 0f);
-                break;
-            case 1:
-                transform.position += new Vector3(0f, SPEED, 0f);
-                break;
-            case 2:
-                transform.position += new Vector3(move_R, SPEED, 0f);
-                break;
+            Destroy_Enemy();
+        }
+
+        if (other.gameObject.tag == "target_1" ||
+            other.gameObject.tag == "target_2" ||
+            other.gameObject.tag == "target_3" ||
+            other.gameObject.tag == "target_4")   // 戦艦に当たったら消える
+        {
+            Destroy_Enemy();
         }
     }
 
-    void Destroy_and_Creation() // 敵の消滅処理
+    /// <summary>
+    /// 敵の消滅処理
+    /// </summary>
+    void Destroy_Enemy()
     {
         Destroy(gameObject);
-        enemy_list.Remove(gameObject);
+        //enemy_list.Remove(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other) // 衝突判定
+    /// <summary>
+    /// 敵の移動
+    /// </summary>
+    private void Enemy_Move()
     {
-        if (other.gameObject.tag == "Player")
+        elapsed_time += Time.deltaTime;
+
+        float distance = Vector3.Distance(base_pos, end_pos);
+
+        //Debug.Log(distance);
+
+        time = distance / speed;
+
+        // 指定された時間に対して経過した時間の割合
+        if (ratio <= 1)
         {
-            Destroy_and_Creation();
+            ratio = elapsed_time / time;
         }
+
+        // 始点から終点までの移動処理
+        transform.position = Vector3.Lerp(base_pos, end_pos, ratio);
     }
 
-    void Screen_Out() // スクリーンアウトしたら消える
+    /// <summary>
+    /// 敵の移動ルートを決める始点と終点
+    /// </summary>
+    private void Enemy_route()
     {
-        if (transform.position.x > 10.0f || transform.position.x < -10.0f ||
-            transform.position.y > 15.0f || transform.position.y < -15.0f ||
-            transform.position.z > 1.0f  || transform.position.z < -1.0f)
-        {
-            Destroy_and_Creation();
-        }
-    }
+        base_pos = transform.position;
 
-    public void Enemy_Pattern() //敵の発生位置
-    {
-        switch (PATTERN)
+        switch (route_pattern)
         {
             case 0:
-                transform.position = new Vector3(pos_X_left, pos_Y_Random, pos_Z_ZERO);
+                end_pos = new Vector3(-5f, -8f, 0f);
                 break;
             case 1:
-                transform.position = new Vector3(pos_X_Random, pos_Y_center, pos_Z_ZERO);
+                end_pos = new Vector3(5f, -8f, 0f);
                 break;
             case 2:
-                transform.position = new Vector3(pos_X_right, pos_Y_Random, pos_Z_ZERO);
-                break;
-        }
-    }
-
-    public void Enemy_Hardness() //敵のHP
-    {
-        switch (HARDNESS)
-        {
-            case 0:
-                HP = hardness_Small;
-                break;
-            case 1:
-                HP = hardness_Middle;
-                break;
-            case 2:
-                HP = hardness_Large;
+                end_pos = new Vector3(-2f, -9f, 0f);
                 break;
             case 3:
-                HP = hardness_Metal;
+                end_pos = new Vector3(2f, -9f, 0f);
                 break;
         }
     }
 
-    public void Enemy_Size() //敵の大きさ
-    {
-        switch (SIZE)
-        {
-            case 0:
-                transform.localScale = new Vector3(size_S, size_S, size_S);
-                SPEED = speed_S;
-                break;
-            case 1:
-                transform.localScale = new Vector3(size_M, size_M, size_M);
-                SPEED = speed_M;
-                break;
-            case 2:
-                transform.localScale = new Vector3(size_L, size_L, size_L);
-                SPEED = speed_L;
-                break;
-        }
-    }
+    /// <summary>
+    /// ルート決めるパターンの数字を返す
+    /// </summary>
+    /// <param name="number">パターン番号</param>
+    /// <returns></returns>
+    public int Route_pattern(int number) { route_pattern = number; return route_pattern; }
+
+    /// <summary>
+    /// 敵の移動速度
+    /// </summary>
+    /// <param name="number">速度の数値</param>
+    /// <returns></returns>
+    public int Enemy_Speed(int number) { speed = number; return speed; }
 }
 
+    

@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - enemy
+  - Bar
+  - Earth
+  - target
+  - attack_area
+  - target_1
+  - target_2
+  - target_3
+  - target_4
   layers:
   - Default
   - TransparentFX
