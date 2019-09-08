@@ -60,17 +60,16 @@ public class Enemy_manager : MonoBehaviour
     private float input_time;
 
     // 敵の移動速度の変数
-    private int speed;
+    private float speed;
 
-    // テキストマネージャーの取得
-    private GameObject Text_manager;
-    // テキストマネージャーのスクリプトを取得
-    private enemy_count_manager enemy_count_script;
+    // 敵の攻撃のカウント
+    private int enemy_count;
+
     private void Start()
     {
         enemy_Stone = (GameObject)Resources.Load("Stone");
         input_time = Random.Range(0.5f, 2f);
-        enemy_count_script = GameObject.Find("Object_Manager").GetComponent<enemy_count_manager>();
+        enemy_count = 0;
     }
 
     private void Update()
@@ -94,7 +93,7 @@ public class Enemy_manager : MonoBehaviour
         enemy_copy = Instantiate(enemy_Stone, transform.position, transform.rotation);
         script = enemy_copy.GetComponent<enemy_controller>();
         script.Route_pattern(end_position);
-        speed = Random.Range(2, 5);
+        speed = Random.Range(2, 4);
         script.Enemy_Speed(speed);
         //enemy_list.Add(enemy_copy);
     }
@@ -160,13 +159,13 @@ public class Enemy_manager : MonoBehaviour
 
         generator_time = input_time;
 
-        if (time_ >= generator_time && enemy_count_script.enemy_count < 20)
+        if (time_ >= generator_time && enemy_count < 3)
         { 
             Enemy_first_pop();
 
-            enemy_count_script.Enemy_count();
+            enemy_count++;
 
-            input_time = Random.Range(0.5f, 2f);
+            input_time = Random.Range(0.5f, 1.5f);
 
             time_ = Zero;
 

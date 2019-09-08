@@ -98,9 +98,4 @@ public class Black_Hole_controller : MonoBehaviour
             }  
         }
     }
-
-    private void fade_alpha()
-    {
-    }
-    //public float Black_Hole_size_number(float number) { size = number; return size; }
 }

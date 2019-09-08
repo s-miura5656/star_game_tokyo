@@ -5,7 +5,6 @@ using UnityEngine;
 public class Black_hole_missile_manager : MonoBehaviour
 {
     // プレハブのミサイルを入れるオブジェクト
-    [SerializeField]
     private GameObject missile;              
     // ミサイルの複製用オブジェクト
     private GameObject missile_copy;         
@@ -40,6 +39,16 @@ public class Black_hole_missile_manager : MonoBehaviour
     private GameObject Ship_Front_L;
     // ミサイルを撃つか撃たないかのステート
     private bool Missile_shot_state;
+    // 戦艦の位置を入れるための変数
+    private Vector3 Ship_Back_R_pos;
+    private Vector3 Ship_Back_L_pos;
+    private Vector3 Ship_Front_R_pos;
+    private Vector3 Ship_Front_L_pos;
+    // 戦艦のスクリプトを取得
+    private Ship_destroy script_back_R;
+    private Ship_destroy script_back_L;
+    private Ship_destroy script_front_R;
+    private Ship_destroy script_front_L;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +56,15 @@ public class Black_hole_missile_manager : MonoBehaviour
         missile = (GameObject)Resources.Load("Missile");
         script = missile.GetComponent<missile_controller>();
         text_script = text_manager.GetComponent<Text_Manager>();
-        missile_shot = true;
+        Ship_Back_L_pos = Ship_Back_L.transform.position;
+        Ship_Back_R_pos = Ship_Back_R.transform.position;
+        Ship_Front_L_pos = Ship_Front_L.transform.position;
+        Ship_Front_R_pos = Ship_Front_R.transform.position;
+        script_back_R = Ship_Back_R.GetComponent<Ship_destroy>();
+        script_back_L = Ship_Back_L.GetComponent<Ship_destroy>();
+        script_front_R = Ship_Front_R.GetComponent<Ship_destroy>();
+        script_front_L = Ship_Front_L.GetComponent<Ship_destroy>();
+        Missile_shot_state = true;
 
     }
 
@@ -62,21 +79,33 @@ public class Black_hole_missile_manager : MonoBehaviour
         {
             Missile_shot_state = false;
 
-            if (hit.collider.tag == ("target_1"))
+            if (hit.collider.tag == "target_1")
             {
-                missile_start_number = 0;
+                if (script_front_L.Alive_or_dead() == true)
+                {
+                    missile_start_number = 0;
+                }
             }
-            else if (hit.collider.tag == ("target_2"))
+            else if (hit.collider.tag == "target_2")
             {
-                missile_start_number = 1;
+                if (script_front_R.Alive_or_dead() == true)
+                {
+                    missile_start_number = 1;
+                }
             }
-            else if (hit.collider.tag == ("target_3"))
+            else if (hit.collider.tag == "target_3")
             {
-                missile_start_number = 2;
+                if (script_back_L.Alive_or_dead() == true)
+                {
+                    missile_start_number = 2;
+                }
             }
-            else if (hit.collider.tag == ("target_4"))
+            else if (hit.collider.tag == "target_4")
             {
-                missile_start_number = 3;
+                if (script_back_L.Alive_or_dead() == true)
+                {
+                    missile_start_number = 3;
+                }
             }
         }
         else
@@ -93,7 +122,10 @@ public class Black_hole_missile_manager : MonoBehaviour
     /// </summary>
     private void Missile_Generater_front_L()
     {
-        if (Input.GetMouseButtonDown(0) && text_script.bullet_count_front_L > 0 && Missile_shot_state == true)
+        if (Input.GetMouseButtonDown(0) && 
+            text_script.bullet_count_front_L > 0 && 
+            Missile_shot_state == true && 
+            script_front_L.Alive_or_dead() == true)
         {
             missile_copy = Instantiate(missile, missile_start_pos, Quaternion.identity);               // ミサイルの複製
             script = missile_copy.GetComponent<missile_controller>();                                  // ミサイルのプレハブについているスクリプトの取得
@@ -107,7 +139,10 @@ public class Black_hole_missile_manager : MonoBehaviour
     /// </summary>
     private void Missile_Generater_front_R()
     {
-        if (Input.GetMouseButtonDown(0) && text_script.bullet_count_front_R > 0 && Missile_shot_state == true)
+        if (Input.GetMouseButtonDown(0) &&
+            text_script.bullet_count_front_R > 0 &&
+            Missile_shot_state == true &&
+            script_front_R.Alive_or_dead() == true)
         {
             missile_copy = Instantiate(missile, missile_start_pos, Quaternion.identity);               // ミサイルの複製
             script = missile_copy.GetComponent<missile_controller>();                                  // ミサイルのプレハブについているスクリプトの取得
@@ -121,7 +156,10 @@ public class Black_hole_missile_manager : MonoBehaviour
     /// </summary>
     private void Missile_Generater_back_L()
     {
-        if (Input.GetMouseButtonDown(0) && text_script.bullet_count_back_L > 0 && Missile_shot_state == true)
+        if (Input.GetMouseButtonDown(0) &&
+            text_script.bullet_count_back_L > 0 &&
+            Missile_shot_state == true &&
+            script_back_L.Alive_or_dead() == true)
         {
             missile_copy = Instantiate(missile, missile_start_pos, Quaternion.identity);               // ミサイルの複製
             script = missile_copy.GetComponent<missile_controller>();                                  // ミサイルのプレハブについているスクリプトの取得
@@ -135,7 +173,10 @@ public class Black_hole_missile_manager : MonoBehaviour
     /// </summary>
     private void Missile_Generater_back_R()
     {
-        if (Input.GetMouseButtonDown(0) && text_script.bullet_count_back_R > 0 && Missile_shot_state == true)
+        if (Input.GetMouseButtonDown(0) &&
+            text_script.bullet_count_back_R > 0 &&
+            Missile_shot_state == true &&
+            script_back_L.Alive_or_dead() == true)
         {
             missile_copy = Instantiate(missile, missile_start_pos, Quaternion.identity);               // ミサイルの複製
             script = missile_copy.GetComponent<missile_controller>();                                  // ミサイルのプレハブについているスクリプトの取得
@@ -152,19 +193,19 @@ public class Black_hole_missile_manager : MonoBehaviour
         switch (missile_start_number)
         {
             case 0:
-                missile_start_pos = Ship_Front_L.transform.position;
+                missile_start_pos = Ship_Front_L_pos;
                 Missile_Generater_front_L();
                 break;
             case 1:
-                missile_start_pos = Ship_Front_R.transform.position;
+                missile_start_pos = Ship_Front_R_pos;
                 Missile_Generater_front_R();    
                 break;
             case 2:
-                missile_start_pos = Ship_Back_L.transform.position;
+                missile_start_pos = Ship_Back_L_pos;
                 Missile_Generater_back_L();
                 break;
             case 3:
-                missile_start_pos = Ship_Back_R.transform.position;
+                missile_start_pos = Ship_Back_R_pos;
                 Missile_Generater_back_R();
                 break;
         }

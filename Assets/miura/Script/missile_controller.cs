@@ -122,7 +122,7 @@ public class missile_controller : MonoBehaviour
 
                 if (explosion_switch == true)
                 {
-                    copy_script.size = 4f;
+                    copy_script.size = 3f;
                     copy_script.scale_speed_first = 100f;
                     copy_script.scale_speed_end = 5;
                     copy_script.waiting_time_number = 0.5f;
@@ -132,7 +132,7 @@ public class missile_controller : MonoBehaviour
                     copy_script.size = 7f;
                     copy_script.scale_speed_first = 100f;
                     copy_script.scale_speed_end = 2;
-                    copy_script.waiting_time_number = 1f;
+                    copy_script.waiting_time_number = 1.5f;
                 }
 
                 missile_pop = false;

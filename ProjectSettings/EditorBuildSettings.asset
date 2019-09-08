@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/miura/Scenes/SampleScene.unity
+    guid: f8aeb05c14185d743b912c513fa7d740
   m_configObjects: {}

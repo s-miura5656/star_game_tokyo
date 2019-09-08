@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class enemy_controller : MonoBehaviour
 {
-    // 出現のパターン
-    private int START_PATTERN;
-
-    // リスト
-    //List<GameObject> enemy_list;
-
     // 敵の初期配置を記録
     private Vector3 base_pos;
 
@@ -29,12 +23,25 @@ public class enemy_controller : MonoBehaviour
     private int route_pattern;
 
     // スピード
-    private int speed;
+    private float speed;
+
+    // シーンマネージャーオブジェクトの取得
+    private GameObject scene_manager_obj;
+
+    // シーンマネージャースクリプトの取得
+    private scene_manager scene_manager_script;
+
+    // 爆発のエフェクトのプレハブを入れる変数
+    private GameObject effect;
+    // 複製されるエフェクト
+    private GameObject effect_copy;
 
     // Start is called before the first frame update
     void Start()
     {
-        //enemy_list = GameObject.Find("UFO").GetComponent<Enemy_manager>().enemy_list;
+        scene_manager_obj = GameObject.Find("Scene_manager");
+        scene_manager_script = scene_manager_obj.GetComponent<scene_manager>();
+        effect = (GameObject)Resources.Load("explosion_enemy");
         Enemy_route();
     }
 
@@ -50,17 +57,27 @@ public class enemy_controller : MonoBehaviour
     /// <param name="other"> 爆風、地球</param>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player") // 爆風に当たったらエネルギーを１手に入れて消える
+        // 爆風に当たったら消える
+        if (other.gameObject.tag == "Player") 
         {
+            effect_copy = Instantiate(effect, transform.position, transform.rotation);
             Destroy_Enemy();
         }
 
+        // 戦艦に当たったら消える
         if (other.gameObject.tag == "target_1" ||
             other.gameObject.tag == "target_2" ||
             other.gameObject.tag == "target_3" ||
-            other.gameObject.tag == "target_4")   // 戦艦に当たったら消える
+            other.gameObject.tag == "target_4")   
+        {
+            effect_copy = Instantiate(effect, transform.position, transform.rotation);
+            Destroy_Enemy();
+        }
+
+        if (other.gameObject.tag == "Bar")
         {
             Destroy_Enemy();
+            scene_manager_script.SetGameScene(scene_manager.GameScene.GameOver);
         }
     }
 
@@ -106,16 +123,16 @@ public class enemy_controller : MonoBehaviour
         switch (route_pattern)
         {
             case 0:
-                end_pos = new Vector3(-5f, -8f, 0f);
+                end_pos = new Vector3(-6f, -11.5f, 0f);
                 break;
             case 1:
-                end_pos = new Vector3(5f, -8f, 0f);
+                end_pos = new Vector3(6f, -11.5f, 0f);
                 break;
             case 2:
-                end_pos = new Vector3(-2f, -9f, 0f);
+                end_pos = new Vector3(-2f, -13f, 0f);
                 break;
             case 3:
-                end_pos = new Vector3(2f, -9f, 0f);
+                end_pos = new Vector3(2f, -13f, 0f);
                 break;
         }
     }
@@ -132,7 +149,7 @@ public class enemy_controller : MonoBehaviour
     /// </summary>
     /// <param name="number">速度の数値</param>
     /// <returns></returns>
-    public int Enemy_Speed(int number) { speed = number; return speed; }
+    public float Enemy_Speed(float number) { speed = number; return speed; }
 }
 
     

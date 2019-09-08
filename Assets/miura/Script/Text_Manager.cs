@@ -90,4 +90,12 @@ public class Text_Manager : MonoBehaviour
     {
         bullet_count_back_R -= 1;
     }
+
+    private void OnEnable()
+    {
+        bullet_count_front_L = 15;
+        bullet_count_front_R = 15;
+        bullet_count_back_L = 5;
+        bullet_count_back_R = 5;
+    }
 }
