@@ -89,7 +89,6 @@ public class old_enemy_controller : MonoBehaviour
     {
         Text_manager = GameObject.Find("Text_Manager");
         text_script = Text_manager.GetComponent<Text_Manager>();
-        enemy_list = GameObject.Find("Object_Manager").GetComponent<Enemy_manager>().enemy_list;
         enemy_Manager_script = GameObject.Find("Object_Manager").GetComponent<Enemy_manager>();
         rigidbody = GetComponent<Rigidbody>();
 

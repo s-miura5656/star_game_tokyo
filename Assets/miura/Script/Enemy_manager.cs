@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Enemy_manager : MonoBehaviour
 {
-    public List<GameObject> enemy_list = new List<GameObject>();
-
     enum Enemy_Type
     {
         STONE,
@@ -40,7 +38,7 @@ public class Enemy_manager : MonoBehaviour
     private GameObject enemy_copy;
 
     // エネミーパラメーター付きのオブジェクトを取得
-    private GameObject enemy_Stone;
+    private GameObject enemy_bomb;
     
     // エネミーパラメーターのスクリプトを取得
     private enemy_controller script;
@@ -65,11 +63,24 @@ public class Enemy_manager : MonoBehaviour
     // 敵の攻撃のカウント
     private int enemy_count;
 
+    // シーンマネージャースクリプトの取得
+    private scene_manager scene_manager_script;
+
+    // オーディオソースの取得
+    private AudioSource audiosource;
+
+    // 効果音の取得
+    [SerializeField]
+    private AudioClip lanchar_sound;
+
     private void Start()
     {
-        enemy_Stone = (GameObject)Resources.Load("Stone");
+        audiosource = gameObject.GetComponent<AudioSource>();
+        scene_manager_script = GameObject.Find("Scene_manager").GetComponent<scene_manager>();
+        enemy_bomb = (GameObject)Resources.Load("bomb");
         input_time = Random.Range(0.5f, 2f);
         enemy_count = 0;
+        GeneratorBombTime(scene_manager_script.EnemyLevel());
     }
 
     private void Update()
@@ -90,12 +101,12 @@ public class Enemy_manager : MonoBehaviour
     /// </summary>
     void Enemy_Generator(int end_position)
     {
-        enemy_copy = Instantiate(enemy_Stone, transform.position, transform.rotation);
+        enemy_copy = Instantiate(enemy_bomb, transform.position, Quaternion.identity);
         script = enemy_copy.GetComponent<enemy_controller>();
         script.Route_pattern(end_position);
         speed = Random.Range(2, 4);
         script.Enemy_Speed(speed);
-        //enemy_list.Add(enemy_copy);
+        audiosource.PlayOneShot(lanchar_sound);
     }
 
     /// <summary>
@@ -103,49 +114,6 @@ public class Enemy_manager : MonoBehaviour
     /// </summary>
     private void Enemy_first_pop()
     {
-        //switch (first_number)
-        //{
-        //    case 0:
-        //        first_pop = new Vector3(6f, 13f, 0f);
-        //        break;
-        //    case 1:
-        //        first_pop = new Vector3(5f, 13f, 0f);
-        //        break;
-        //    case 2:
-        //        first_pop = new Vector3(4f, 13f, 0f);
-        //        break;
-        //    case 3:
-        //        first_pop = new Vector3(3f, 13f, 0f);
-        //        break;
-        //    case 4:
-        //        first_pop = new Vector3(2f, 13f, 0f);
-        //        break;
-        //    case 5:
-        //        first_pop = new Vector3(1f, 13f, 0f);
-        //        break;
-        //    case 6:
-        //        first_pop = new Vector3(0f, 13f, 0f);
-        //        break;
-        //    case 7:
-        //        first_pop = new Vector3(-1f, 13f, 0f);
-        //        break;
-        //    case 8:
-        //        first_pop = new Vector3(-2f, 13f, 0f);
-        //        break;
-        //    case 9:
-        //        first_pop = new Vector3(-3f, 13f, 0f);
-        //        break;
-        //    case 10:
-        //        first_pop = new Vector3(-4f, 13f, 0f);
-        //        break;
-        //    case 11:
-        //        first_pop = new Vector3(-5f, 13f, 0f);
-        //        break;
-        //    case 12:
-        //        first_pop = new Vector3(-6f, 13f, 0f);
-        //        break;
-        //}
-
         end_pos = Random.Range(0, 4);
         Enemy_Generator(end_pos);
     }
@@ -157,22 +125,32 @@ public class Enemy_manager : MonoBehaviour
     {
         time_ += Time.deltaTime;
 
-        generator_time = input_time;
-
-        if (time_ >= generator_time && enemy_count < 3)
+        if (time_ >= generator_time && enemy_count < 4)
         { 
             Enemy_first_pop();
 
             enemy_count++;
 
-            input_time = Random.Range(0.5f, 1.5f);
+            GeneratorBombTime(scene_manager_script.EnemyLevel());
 
             time_ = Zero;
 
         }
     }
 
-    
+    /// <summary>
+    /// 敵がボムを落とす時間
+    /// </summary>
+    /// <param name="time">時間</param>
+    private void GeneratorBombTime(int level)
+    {
+        switch (level)
+        {
+            case 1: generator_time = Random.Range(1f, 2f);   break;
+            case 2: generator_time = Random.Range(1f, 1.5f); break;
+            case 3: generator_time = Random.Range(0.5f, 1f); break;
+        }
+    }
 }
 
 

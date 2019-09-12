@@ -13,6 +13,7 @@ TagManager:
   - target_2
   - target_3
   - target_4
+  - enemy_explosion
   layers:
   - Default
   - TransparentFX

@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class UfoController : MonoBehaviour
 {
-
-    public float ufo_speed;
+    private float ufo_speed;
     float bezier_t;
     private Vector3 bezier_start;
     private Vector3 bezier_control1;
     private Vector3 bezier_control2;
     private Vector3 bezier_end;
-
+    private ufo_generator ufo_generator_script;
     private int random_number;
+    private AudioSource Audiosource;
     // Start is called before the first frame update
     void Start()
     {
+        ufo_generator_script = GameObject.Find("Object_Manager").GetComponent<ufo_generator>();
+        Audiosource = gameObject.GetComponent<AudioSource>();
         random_number = Random.Range(0, 2);
         transform.position = new Vector3(0f, 25f, 0f);
         Wave_One(random_number);
+        Audiosource.Play();
     }
 
     // Update is called once per frame
@@ -63,16 +66,18 @@ public class UfoController : MonoBehaviour
         switch (number)
         {
             case 0:
-                bezier_start = new Vector3(16.0f, Random.Range(13f, 14f), 0f);
+                bezier_start = new Vector3(12.0f, Random.Range(13f, 14f), 0f);
                 bezier_control1 = new Vector3(Random.Range(2f, 7f), Random.Range(0f, 6f), 0f);
                 bezier_control2 = new Vector3(Random.Range(-7f, -2f), Random.Range(0f, 6f), 0f);
-                bezier_end = new Vector3(-16.0f, Random.Range(13f, 14f), 0f);
+                bezier_end = new Vector3(-12.0f, Random.Range(13f, 14f), 0f);
+                ufo_speed = 0.001f;
                 break;
             case 1:
-                bezier_start = new Vector3(-16.0f, Random.Range(13f, 14f), 0f);
+                bezier_start = new Vector3(-12.0f, Random.Range(13f, 14f), 0f);
                 bezier_control1 = new Vector3(Random.Range(-7f, 0f), Random.Range(0f, 6f), 0f);
                 bezier_control2 = new Vector3(Random.Range(0f, 7f), Random.Range(0f, 6f), 0f);
-                bezier_end = new Vector3(16.0f, Random.Range(13f, 14f), 0f);
+                bezier_end = new Vector3(12.0f, Random.Range(13f, 14f), 0f);
+                ufo_speed = 0.001f;
                 break;
         }
         
@@ -83,9 +88,11 @@ public class UfoController : MonoBehaviour
     /// </summary>
     private void Destroy_UFO()
     {
-        if (transform.position.y >= 27f)
+        if (transform.position.y >= 15f)
         {
+            Audiosource.Stop();
             Destroy(gameObject);
+            ufo_generator_script.UfoMaxCountDown();
         }
     }
 

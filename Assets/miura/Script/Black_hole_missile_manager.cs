@@ -49,7 +49,10 @@ public class Black_hole_missile_manager : MonoBehaviour
     private Ship_destroy script_back_L;
     private Ship_destroy script_front_R;
     private Ship_destroy script_front_L;
-
+    // シーンマネージャーオブジェクトの取得
+    [SerializeField]
+    private GameObject scene_manager;
+    private scene_manager scene_script;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,56 +68,59 @@ public class Black_hole_missile_manager : MonoBehaviour
         script_front_R = Ship_Front_R.GetComponent<Ship_destroy>();
         script_front_L = Ship_Front_L.GetComponent<Ship_destroy>();
         Missile_shot_state = true;
-
+        scene_script = scene_manager.GetComponent<scene_manager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 100f))
+        if (scene_script.GameMainSwitch() == true)
         {
-            Missile_shot_state = false;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (hit.collider.tag == "target_1")
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100f))
             {
-                if (script_front_L.Alive_or_dead() == true)
+                Missile_shot_state = false;
+
+                if (hit.collider.tag == "target_1")
                 {
-                    missile_start_number = 0;
+                    if (script_front_L.Alive_or_dead() == true)
+                    {
+                        missile_start_number = 0;
+                    }
+                }
+                else if (hit.collider.tag == "target_2")
+                {
+                    if (script_front_R.Alive_or_dead() == true)
+                    {
+                        missile_start_number = 1;
+                    }
+                }
+                else if (hit.collider.tag == "target_3")
+                {
+                    if (script_back_L.Alive_or_dead() == true)
+                    {
+                        missile_start_number = 2;
+                    }
+                }
+                else if (hit.collider.tag == "target_4")
+                {
+                    if (script_back_R.Alive_or_dead() == true)
+                    {
+                        missile_start_number = 3;
+                    }
                 }
             }
-            else if (hit.collider.tag == "target_2")
+            else
             {
-                if (script_front_R.Alive_or_dead() == true)
-                {
-                    missile_start_number = 1;
-                }
+                Missile_shot_state = true;
             }
-            else if (hit.collider.tag == "target_3")
-            {
-                if (script_back_L.Alive_or_dead() == true)
-                {
-                    missile_start_number = 2;
-                }
-            }
-            else if (hit.collider.tag == "target_4")
-            {
-                if (script_back_L.Alive_or_dead() == true)
-                {
-                    missile_start_number = 3;
-                }
-            }
+
+
+            Missile_Start_pos();
         }
-        else
-        {
-            Missile_shot_state = true;
-        }
-
-
-        Missile_Start_pos();
     }
 
     /// <summary>
@@ -193,19 +199,19 @@ public class Black_hole_missile_manager : MonoBehaviour
         switch (missile_start_number)
         {
             case 0:
-                missile_start_pos = Ship_Front_L_pos;
+                missile_start_pos = Ship_Front_L.transform.position;
                 Missile_Generater_front_L();
                 break;
             case 1:
-                missile_start_pos = Ship_Front_R_pos;
+                missile_start_pos = Ship_Front_R.transform.position;
                 Missile_Generater_front_R();    
                 break;
             case 2:
-                missile_start_pos = Ship_Back_L_pos;
+                missile_start_pos = Ship_Back_L.transform.position;
                 Missile_Generater_back_L();
                 break;
             case 3:
-                missile_start_pos = Ship_Back_R_pos;
+                missile_start_pos = Ship_Back_R.transform.position;
                 Missile_Generater_back_R();
                 break;
         }

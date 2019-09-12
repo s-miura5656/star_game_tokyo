@@ -5,9 +5,10 @@ using UnityEngine;
 public class Black_Hole_controller : MonoBehaviour
 {
     public Vector3 centerPosition;      // 軌道の中心の座標
-    float gravityConst_max = 80.0f;     // 定数(=GMm)のパラメータ
-    float gravityConst_min = 50.0f;     // 定数(=GMm)のパラメータ
+    //float gravityConst_max = 80.0f;   // 定数(=GMm)のパラメータ
+    //float gravityConst_min = 50.0f;   // 定数(=GMm)のパラメータ
     float scale;                        // ブラックホールの拡大値
+    [System.NonSerialized]
     public bool scale_switch;           // 拡大の拡大縮小切り替え
 
     //List<GameObject> enemy_list;
@@ -24,22 +25,52 @@ public class Black_Hole_controller : MonoBehaviour
     public float waiting_time_number;  // 爆発の待機時間を決める変数
     private float waiting_time;        // 爆発の待機時間を図る
 
+    // Z軸の固定
+    private float fixed_z_axis = 0f;
+
+    // ミサイルの爆発音
+    [SerializeField]
+    private AudioClip explosion_sound_large;
+    [SerializeField]
+    private AudioClip explosion_sound_small;
+    // オーディオソースの取得
+    private AudioSource audiosource;
+    // 爆発の大か小の判断
+    private bool explosion_state;
     // Start is called before the first frame update
     void Start()
     {
-        //enemy_list = GameObject.Find("Object_Manager").GetComponent<Enemy_manager>().enemy_list;
         scale = 0.0f;
         object_manager = GameObject.Find("Object_Manager");
         Black_Hole_Missile_s = object_manager.GetComponent<Black_hole_missile_manager>();
         scale_switch = true;
+        audiosource = gameObject.GetComponent<AudioSource>();
+
+        if (explosion_state == true)
+        {
+            size = 1f;
+            scale_speed_first = 100f;
+            scale_speed_end = 5;
+            waiting_time_number = 0.5f;
+            audiosource.PlayOneShot(explosion_sound_small);
+        }
+        else
+        {
+            size = 4f;
+            scale_speed_first = 100f;
+            scale_speed_end = 2;
+            waiting_time_number = 1.5f;
+            audiosource.PlayOneShot(explosion_sound_large);
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        centerPosition = transform.position;
-
+        //centerPosition = transform.position;
         //Attraction();
+        transform.position = new Vector3(transform.position.x, transform.position.y, fixed_z_axis); 
         Black_hole_size();
         
     }
@@ -97,5 +128,10 @@ public class Black_Hole_controller : MonoBehaviour
                 }
             }  
         }
+    }
+
+    public void ExplosionState(bool switch_)
+    {
+        explosion_state = switch_;
     }
 }

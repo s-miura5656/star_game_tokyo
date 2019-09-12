@@ -25,9 +25,6 @@ public class enemy_controller : MonoBehaviour
     // スピード
     private float speed;
 
-    // シーンマネージャーオブジェクトの取得
-    private GameObject scene_manager_obj;
-
     // シーンマネージャースクリプトの取得
     private scene_manager scene_manager_script;
 
@@ -35,12 +32,13 @@ public class enemy_controller : MonoBehaviour
     private GameObject effect;
     // 複製されるエフェクト
     private GameObject effect_copy;
-
+    // テキストマネージャースクリプトの取得
+    private Text_Manager text_script;
     // Start is called before the first frame update
     void Start()
     {
-        scene_manager_obj = GameObject.Find("Scene_manager");
-        scene_manager_script = scene_manager_obj.GetComponent<scene_manager>();
+        scene_manager_script = GameObject.Find("Scene_manager").GetComponent<scene_manager>();
+        text_script = GameObject.Find("Text_Manager").GetComponent<Text_Manager>();
         effect = (GameObject)Resources.Load("explosion_enemy");
         Enemy_route();
     }
@@ -61,6 +59,19 @@ public class enemy_controller : MonoBehaviour
         if (other.gameObject.tag == "Player") 
         {
             effect_copy = Instantiate(effect, transform.position, transform.rotation);
+            scene_manager_script.EnamyAttack();
+            text_script.ComboSwitchOn();
+            text_script.ComboCountUp();
+            Destroy_Enemy();
+        }
+
+        // 敵の爆風に当たったら消える
+        if (other.gameObject.tag == "enemy_explosion")
+        {
+            effect_copy = Instantiate(effect, transform.position, transform.rotation);
+            scene_manager_script.EnamyAttack();
+            text_script.ComboSwitchOn();
+            text_script.ComboCountUp();
             Destroy_Enemy();
         }
 
@@ -71,9 +82,11 @@ public class enemy_controller : MonoBehaviour
             other.gameObject.tag == "target_4")   
         {
             effect_copy = Instantiate(effect, transform.position, transform.rotation);
+            scene_manager_script.EnamyAttack();
             Destroy_Enemy();
         }
 
+        // 画面下に到達したらゲームオーバー
         if (other.gameObject.tag == "Bar")
         {
             Destroy_Enemy();
@@ -111,6 +124,8 @@ public class enemy_controller : MonoBehaviour
 
         // 始点から終点までの移動処理
         transform.position = Vector3.Lerp(base_pos, end_pos, ratio);
+
+        
     }
 
     /// <summary>

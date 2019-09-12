@@ -41,15 +41,22 @@ public class missile_controller : MonoBehaviour
     Black_hole_missile_manager missile_Manager_script;
     // 爆発の爆発の大きさのスイッチ
     private bool explosion_switch;
-
+    // オーディオソースの取得
+    private AudioSource audiosource;
+    // 前衛の戦艦ミサイル発射音
+    [SerializeField]
+    private AudioClip front_missile_sound;
+    // 後衛の戦艦ミサイル発射音
+    [SerializeField]
+    private AudioClip back_missile_sound;
     // Start is called before the first frame update
     void Start()
     {
+        audiosource = gameObject.GetComponent<AudioSource>();
         sumTime = 0.0f;
         missile_pop = true;
         base_missile_pos = transform.position;
         missile_Manager_script = GameObject.Find("Object_Manager").GetComponent<Black_hole_missile_manager>();
-        //black_hole = (GameObject)Resources.Load("Black_Hole");
         position = Input.mousePosition;
         if (missile_Manager_script.missile_Start_number_state() == 0)
         {
@@ -122,17 +129,11 @@ public class missile_controller : MonoBehaviour
 
                 if (explosion_switch == true)
                 {
-                    copy_script.size = 3f;
-                    copy_script.scale_speed_first = 100f;
-                    copy_script.scale_speed_end = 5;
-                    copy_script.waiting_time_number = 0.5f;
+                    copy_script.ExplosionState(true);
                 }
                 else
                 {
-                    copy_script.size = 7f;
-                    copy_script.scale_speed_first = 100f;
-                    copy_script.scale_speed_end = 2;
-                    copy_script.waiting_time_number = 1.5f;
+                    copy_script.ExplosionState(false);
                 }
 
                 missile_pop = false;
@@ -151,15 +152,11 @@ public class missile_controller : MonoBehaviour
 
             if (explosion_switch == true)
             {
-                copy_script.size = 4f;
-                copy_script.scale_speed_first = 100f;
-                copy_script.scale_speed_end = 5;
+                copy_script.ExplosionState(true);
             }
             else
             {
-                copy_script.size = 7f;
-                copy_script.scale_speed_first = 100f;
-                copy_script.scale_speed_end = 2;
+                copy_script.ExplosionState(false);
             }
 
             missile_pop = false;
