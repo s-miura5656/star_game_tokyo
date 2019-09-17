@@ -47,11 +47,17 @@ public class scene_manager : MonoBehaviour
     [SerializeField]
     private GameObject all;
     [SerializeField]
-    private GameObject wave_score;
+    private GameObject wave_score_one;
+    [SerializeField]
+    private GameObject wave_score_two;
+    [SerializeField]
+    private GameObject wave_score_three;
     [SerializeField]
     private GameObject bullet_bonus;
     [SerializeField]
     private GameObject ship_bonus;
+    [SerializeField]
+    private GameObject tap_start;
     // ↑　ここまで
 
     // ゲームのレベルを決める変数
@@ -89,6 +95,7 @@ public class scene_manager : MonoBehaviour
     private bool gamemain_switch;
     // オーディオソース
     private AudioSource[] AudioSources;
+    private AudioSource audio_se;
     // 戦艦の初期位置
     private Vector3[] battleship_base_pos;
     // 初期化判断用
@@ -100,11 +107,20 @@ public class scene_manager : MonoBehaviour
     private Ship_destroy destroy_script_fr;
     private Ship_destroy destroy_script_bl;
     private Ship_destroy destroy_script_br;
-
+    // タイトル画面プッシュ音
+    [SerializeField]
+    private AudioClip push_sound;
+    // リザルト表示
+    [SerializeField]
+    private AudioClip result_sound;
+    // ゲームオーバー
+    [SerializeField]
+    private AudioClip gameover_sound;
     // Start is called before the first frame update
     void Start()
     {
         AudioSources = gameObject.GetComponents<AudioSource>();
+        audio_se = gameObject.GetComponent<AudioSource>();
         ufo_script = object_manager.GetComponent<ufo_generator>();
         display_state = false;
         scene_ = GameScene.Title;
@@ -119,7 +135,7 @@ public class scene_manager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         switch (scene_)
         {
@@ -138,14 +154,24 @@ public class scene_manager : MonoBehaviour
     /// </summary>
     private void Scene_Title()
     {
-        Title_.SetActive(true);
+        wait_time += Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0))
+        Title_.SetActive(true);
+        tap_start.SetActive(true);
+
+        if (wait_time > wait_max)
         {
-            ShipInitialization();
-            Title_.SetActive(false);
-            scene_ = GameScene.Description;
+            if (Input.GetMouseButtonDown(0))
+            {
+                audio_se.PlayOneShot(push_sound);
+                ShipInitialization();
+                Title_.SetActive(false);
+                tap_start.SetActive(false);
+                wait_time = 0f;
+                scene_ = GameScene.Description;
+            }
         }
+        
     }
 
     /// <summary>
@@ -153,15 +179,23 @@ public class scene_manager : MonoBehaviour
     /// </summary>
     private void Scene_Description()
     {
+        wait_time += Time.deltaTime;
+
         Description.SetActive(true);
 
-        if (Input.GetMouseButtonDown(0))
+        if (wait_time > wait_max)
         {
-            Description.SetActive(false);
-            scene_ = GameScene.Interval_first;
-            AudioSources[0].Stop();
-            AudioSources[1].Play();
+            if (Input.GetMouseButtonDown(0))
+            {
+                audio_se.PlayOneShot(push_sound);
+                Description.SetActive(false);
+                AudioSources[0].Stop();
+                AudioSources[1].Play();
+                wait_time = 0f;
+                scene_ = GameScene.Interval_first;
+            }
         }
+        
     }
 
     /// <summary>
@@ -169,6 +203,12 @@ public class scene_manager : MonoBehaviour
     /// </summary>
     private void Scene_interval_first()
     {
+        if (EnemyLevel() >= 3)
+        {
+            AudioSources[1].Stop();
+            AudioSources[2].Play();
+        }
+
         text_manager.SetActive(true);
 
         wave.SetActive(true);
@@ -228,11 +268,14 @@ public class scene_manager : MonoBehaviour
             }
 
             attack_area.SetActive(true);
-            wave_score.SetActive(true);
+
+            WaveScore();
+
+            initialization_state = false;
             display_state = true;
         }
 
-        if (ufo_script.UfoMaxCount() == 0)
+        if (ufo_script.UfoState() == 0)
         {
             scene_ = GameScene.Interval_second;
         }
@@ -245,17 +288,6 @@ public class scene_manager : MonoBehaviour
     {
         gamemain_switch = false;
 
-        // GameObject型の配列cubesに、"box"タグのついたオブジェクトをすべて格納
-        GameObject[] enemys = GameObject.FindGameObjectsWithTag("enemy");
-
-        // GameObject型の変数cubeに、cubesの中身を順番に取り出す。
-        // foreachは配列の要素の数だけループします。
-        foreach (GameObject enemy in enemys)
-        {
-            // 消す！
-            Destroy(enemy);
-        }
-
         if (wave_level < 3)
         {
             text_manager.SetActive(false);
@@ -265,13 +297,12 @@ public class scene_manager : MonoBehaviour
         }
         else
         {
-            wave_level++;
-            remaining_bullet_front_L.SetActive(false);
-            remaining_bullet_front_R.SetActive(false);
-            remaining_bullet_back_L.SetActive(false);
-            remaining_bullet_back_R.SetActive(false);
             text_manager.SetActive(false);
+            wave_score_three.SetActive(false);
+            wave_level++;
+            RemainingBulletInactive();
             attack_area.SetActive(false);
+            audio_se.PlayOneShot(result_sound);
             scene_ = GameScene.Result;
         }
     }
@@ -281,56 +312,24 @@ public class scene_manager : MonoBehaviour
     /// </summary>
     private void Scene_Game_Over()
     {
-        AudioSources[1].Stop();
-
-        // GameObject型の配列cubesに、"box"タグのついたオブジェクトをすべて格納
-        GameObject[] enemys = GameObject.FindGameObjectsWithTag("enemy");
-
-        // GameObject型の変数cubeに、cubesの中身を順番に取り出す。
-        // foreachは配列の要素の数だけループします。
-        foreach (GameObject enemy in enemys)
+        if (AudioSources[1].isPlaying)
         {
-            // 消す！
-            Destroy(enemy);
+            AudioSources[1].Stop();
+            audio_se.PlayOneShot(gameover_sound);
+            wave_score_one.SetActive(false);
+            wave_score_two.SetActive(false);
+            GameOverSetUp();
+            RemainingBulletInactive();
+        }
+        else if (AudioSources[2].isPlaying)
+        {
+            AudioSources[2].Stop();
+            audio_se.PlayOneShot(gameover_sound);
+            wave_score_three.SetActive(false);
+            GameOverSetUp();
+            RemainingBulletInactive();
         }
 
-        gameover_fade_out.SetActive(true);
-
-        if (display_state == true)
-        {
-            remaining_bullet_front_L.SetActive(false);
-            remaining_bullet_front_R.SetActive(false);
-            remaining_bullet_back_L.SetActive(false);
-            remaining_bullet_back_R.SetActive(false);
-            wave_score.SetActive(false);
-            attack_area.SetActive(false);
-            gameover.SetActive(true);
-            display_state = false;
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            initialization_state = true;
-
-            text_manager.SetActive(false);
-            gameover_fade_out.SetActive(false);
-            gameover.SetActive(false);
-            Ship_front_left.SetActive(false);
-            Ship_front_right.SetActive(false);
-            Ship_back_left.SetActive(false);
-            Ship_back_right.SetActive(false);
-            initialization();
-            AudioSources[0].Play();
-            scene_ = GameScene.Title;
-        }
-    }
-
-    /// <summary>
-    /// リザルトでの処理
-    /// </summary>
-    private void SceneResult()
-    {
-        AudioSources[1].Stop();
         wait_time += Time.deltaTime;
 
         // GameObject型の配列cubesに、"box"タグのついたオブジェクトをすべて格納
@@ -344,15 +343,30 @@ public class scene_manager : MonoBehaviour
             Destroy(enemy);
         }
 
-        wave_score.SetActive(false);
+        if (wait_time > wait_max)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                initialization_state = true;
+                initializationGameOver();
+                initialization();
+
+                AudioSources[0].Play();
+                scene_ = GameScene.Title;
+            }
+        }
+    }
+
+    /// <summary>
+    /// リザルトでの処理
+    /// </summary>
+    private void SceneResult()
+    {
+        AudioSources[2].Stop();
+        wait_time += Time.deltaTime;
+
         text_manager.SetActive(true);
-        game_clear.SetActive(true);
-        wave_1.SetActive(true);
-        wave_2.SetActive(true);
-        wave_3.SetActive(true);
-        bullet_bonus.SetActive(true);
-        ship_bonus.SetActive(true);
-        all.SetActive(true);
+        ResultSetUp();
 
         if (wait_time > wait_max)
         {
@@ -360,21 +374,8 @@ public class scene_manager : MonoBehaviour
             {
                 initialization_state = true;
 
-                text_manager.SetActive(false);
-                game_clear.SetActive(false);
-                wave_1.SetActive(false);
-                wave_2.SetActive(false);
-                wave_3.SetActive(false);
-                bullet_bonus.SetActive(false);
-                ship_bonus.SetActive(false);
-                all.SetActive(false);
-                wave_score.SetActive(false);
-                Ship_front_left.SetActive(false);
-                Ship_front_right.SetActive(false);
-                Ship_back_left.SetActive(false);
-                Ship_back_right.SetActive(false);
+                initializationResult();
                 initialization();
-                wait_time = 0f;
                 AudioSources[0].Play();
                 scene_ = GameScene.Title;
             }
@@ -393,12 +394,91 @@ public class scene_manager : MonoBehaviour
     }
 
     /// <summary>
+    /// 戦艦の残弾すべての非表示
+    /// </summary>
+    private void RemainingBulletInactive()
+    {
+        remaining_bullet_front_L.SetActive(false);
+        remaining_bullet_front_R.SetActive(false);
+        remaining_bullet_back_L.SetActive(false);
+        remaining_bullet_back_R.SetActive(false);
+    }
+
+    /// <summary>
+    /// ゲームオーバー画面に必要なものを表示
+    /// </summary>
+    private void GameOverSetUp()
+    {
+        gameover_fade_out.SetActive(true);
+        gameover.SetActive(true);
+    }
+
+    /// <summary>
+    /// リザルトに必要なものを表示
+    /// </summary>
+    private void ResultSetUp()
+    {
+        game_clear.SetActive(true);
+        wave_1.SetActive(true);
+        wave_2.SetActive(true);
+        wave_3.SetActive(true);
+        bullet_bonus.SetActive(true);
+        ship_bonus.SetActive(true);
+        all.SetActive(true);
+    }
+
+    /// <summary>
     /// 初期化
     /// </summary>
     private void initialization()
     {
+        display_state = false;
+        text_manager.SetActive(false);
         wave_level = 1;
         gamemain_switch = false;
+        Ship_front_left.SetActive(false);
+        Ship_front_right.SetActive(false);
+        Ship_back_left.SetActive(false);
+        Ship_back_right.SetActive(false);
+    }
+
+    /// <summary>
+    /// ゲームオーバー用初期化
+    /// </summary>
+    private void initializationGameOver()
+    {
+        attack_area.SetActive(false);
+        gameover_fade_out.SetActive(false);
+        gameover.SetActive(false);
+        wait_time = 0f;
+    }
+
+    /// <summary>
+    /// リザルト用初期化
+    /// </summary>
+    private void initializationResult()
+    {
+        game_clear.SetActive(false);
+        wave_1.SetActive(false);
+        wave_2.SetActive(false);
+        wave_3.SetActive(false);
+        bullet_bonus.SetActive(false);
+        ship_bonus.SetActive(false);
+        all.SetActive(false);
+        wait_time = 0f;
+    }
+
+    /// <summary>
+    /// ウェーブ毎に表示するスコア
+    /// </summary>
+    private void WaveScore()
+    {
+        switch (EnemyLevel())
+        {
+            case 1: wave_score_one.SetActive(true); break;
+            case 2: wave_score_one.SetActive(false); wave_score_two.SetActive(true); break;
+            case 3: wave_score_two.SetActive(false); wave_score_three.SetActive(true); break;
+        }
     }
 
     /// <summary>

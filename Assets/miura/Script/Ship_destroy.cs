@@ -24,13 +24,14 @@ public class Ship_destroy : MonoBehaviour
     void Start()
     {
         text_script = text_manager.GetComponent<Text_Manager>();
+        scene_script = scene_manager.GetComponent<scene_manager>();
         Alive_state = true;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        //AliveTiming();
+        AliveTiming();
     }
 
     /// <summary>

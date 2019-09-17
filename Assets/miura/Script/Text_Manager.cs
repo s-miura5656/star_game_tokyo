@@ -35,7 +35,11 @@ public class Text_Manager : MonoBehaviour
     private GameObject all;
     // 現在のウェーブのスコア
     [SerializeField]
-    private GameObject wave_score;
+    private GameObject wave_score_one;
+    [SerializeField]
+    private GameObject wave_score_two;
+    [SerializeField]
+    private GameObject wave_score_three;
     // コンボカウント
     private GameObject combo_count_text;
     // 残弾ボーナスのテキスト
@@ -143,9 +147,12 @@ public class Text_Manager : MonoBehaviour
         WaveTwoScore();
         WaveThreeScore();
         AllScore();
-        WaveScore();
+        WaveScoreOne();
+        WaveScoreTwo();
+        WaveScoreThree();
         RemainingBulletBonus();
         ShipBonus();
+
         if (combo_switch == true)
         {
             ComboTime();
@@ -252,20 +259,31 @@ public class Text_Manager : MonoBehaviour
     }
 
     /// <summary>
-    /// 現在のウェーブの現在のスコア
+    /// ウェーブ１の現在のスコア
     /// </summary>
-    private void WaveScore()
+    private void WaveScoreOne()
     {
-        Text _text = wave_score.GetComponent<Text>();
-
-        switch (scene_manager_script.EnemyLevel())
-        {
-            case 1: _text.text = "" + wave_one_score;   break;
-            case 2: _text.text = "" + wave_two_score;   break;
-            case 3: _text.text = "" + wave_three_score; break;
-        }
+        Text _text = wave_score_one.GetComponent<Text>();
+        _text.text = "" + wave_one_score;
     }
 
+    /// <summary>
+    /// ウェーブ２の現在のスコア
+    /// </summary>
+    private void WaveScoreTwo()
+    {
+        Text _text = wave_score_two.GetComponent<Text>();
+        _text.text = "" + wave_two_score;
+    }
+
+    /// <summary>
+    /// ウェーブ３の現在のスコア
+    /// </summary>
+    private void WaveScoreThree()
+    {
+        Text _text = wave_score_three.GetComponent<Text>();
+        _text.text = "" + wave_three_score;
+    }
     /// <summary>
     /// オブジェクトが非アクティブの時に残りの残弾を記憶する
     /// </summary>
@@ -355,7 +373,6 @@ public class Text_Manager : MonoBehaviour
             combo_switch = false;
             combo_count = 0;
             combo_time = 0f;
-            
         }
     }
 
@@ -519,7 +536,6 @@ public class Text_Manager : MonoBehaviour
         else
         {
             bullet_count_back_R = 0;
-
         }
     }
 

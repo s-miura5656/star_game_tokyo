@@ -34,6 +34,9 @@ public class Enemy_manager : MonoBehaviour
     // リセット用変数
     private int Zero = 0;
 
+    // 生成するエネミーの最大数
+    private int enemy_pop;
+
     // コピーしたオブジェクトの取得
     private GameObject enemy_copy;
 
@@ -81,6 +84,7 @@ public class Enemy_manager : MonoBehaviour
         input_time = Random.Range(0.5f, 2f);
         enemy_count = 0;
         GeneratorBombTime(scene_manager_script.EnemyLevel());
+        EnemyMaxPop(scene_manager_script.EnemyLevel());
     }
 
     private void Update()
@@ -125,7 +129,7 @@ public class Enemy_manager : MonoBehaviour
     {
         time_ += Time.deltaTime;
 
-        if (time_ >= generator_time && enemy_count < 4)
+        if (time_ >= generator_time && enemy_count < enemy_pop)
         { 
             Enemy_first_pop();
 
@@ -146,9 +150,22 @@ public class Enemy_manager : MonoBehaviour
     {
         switch (level)
         {
-            case 1: generator_time = Random.Range(1f, 2f);   break;
-            case 2: generator_time = Random.Range(1f, 1.5f); break;
-            case 3: generator_time = Random.Range(0.5f, 1f); break;
+            case 1: generator_time = Random.Range(1.5f, 2.5f);   break;
+            case 2: generator_time = Random.Range(1f, 2f); break;
+            case 3: generator_time = Random.Range(0.5f, 1.5f); break;
+        }
+    }
+
+    /// <summary>
+    /// ウェーブごとにボムをいくつまで出すか決める
+    /// </summary>
+    private void EnemyMaxPop(int level)
+    {
+        switch (level)
+        {
+            case 1: enemy_pop = Random.Range(3, 4); break;
+            case 2: enemy_pop = Random.Range(3, 5); break;
+            case 3: enemy_pop = Random.Range(5, 7); break;
         }
     }
 }

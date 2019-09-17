@@ -25,7 +25,7 @@ public class UfoController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         UFO_Move();
         Destroy_UFO();
@@ -83,6 +83,10 @@ public class UfoController : MonoBehaviour
         
     }
 
+    private void WaveTwo()
+    {
+
+    }
     /// <summary>
     /// UFOの破壊
     /// </summary>

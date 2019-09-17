@@ -259,6 +259,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 829e5c8a8b1691146885343b8f3f6992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  x1: {fileID: 4700185845091782940, guid: c25ad228a41268b4b9d2c869cfd5e537, type: 3}
+  x2: {fileID: 7494666714212230474, guid: 37ccfd676fd71d148bbe6ec7c3cfddfa, type: 3}
+  x3: {fileID: 6989855283784203545, guid: 3905e94892d83914cb0885fbf609ee53, type: 3}
+  x4: {fileID: 7336811202037827096, guid: 8d8bb5aba941dea49955f0f0a3fedb81, type: 3}
+  x5: {fileID: 4159705205547244361, guid: 9c945fd534560e4439e76ba70680a1d7, type: 3}
 --- !u!1001 &6326025485182743330
 PrefabInstance:
   m_ObjectHideFlags: 0

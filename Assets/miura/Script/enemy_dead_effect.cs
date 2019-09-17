@@ -10,12 +10,18 @@ public class enemy_dead_effect : MonoBehaviour
     private float scale_speed;
     // 爆風の待機カウント
     private float time_count;
-
+    // 敵のボムの爆発音
+    [SerializeField]
+    private AudioClip enemy_bomb_sound;
+    // オーディオソースの取得
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = gameObject.GetComponent<AudioSource>();
         scale_speed = 0.1f;
         transform.localScale = new Vector3(scale, scale, scale);
+        audioSource.PlayOneShot(enemy_bomb_sound);
     }
 
     // Update is called once per frame

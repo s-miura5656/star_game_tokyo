@@ -34,6 +34,20 @@ public class enemy_controller : MonoBehaviour
     private GameObject effect_copy;
     // テキストマネージャースクリプトの取得
     private Text_Manager text_script;
+    // コンボ表示のプレハブを取得
+    [SerializeField]
+    private GameObject x1;
+    [SerializeField]
+    private GameObject x2;
+    [SerializeField]
+    private GameObject x3;
+    [SerializeField]
+    private GameObject x4;
+    [SerializeField]
+    private GameObject x5;
+    // コンボ表示のコピー
+    private GameObject combo_text_copy;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,19 +73,41 @@ public class enemy_controller : MonoBehaviour
         if (other.gameObject.tag == "Player") 
         {
             effect_copy = Instantiate(effect, transform.position, transform.rotation);
+
+            switch (text_script.ComboCount())
+            {
+                case 0: break;
+                case 1: combo_text_copy = Instantiate(x1, transform.position + new Vector3(0f, 0f, -5f), transform.rotation); break;
+                case 2: combo_text_copy = Instantiate(x2, transform.position + new Vector3(0f, 0f, -5f), transform.rotation); break;
+                case 3: combo_text_copy = Instantiate(x3, transform.position + new Vector3(0f, 0f, -5f), transform.rotation); break;
+                case 4: combo_text_copy = Instantiate(x4, transform.position + new Vector3(0f, 0f, -5f), transform.rotation); break;
+                case 5: combo_text_copy = Instantiate(x5, transform.position + new Vector3(0f, 0f, -5f), transform.rotation); break;
+            }
+
             scene_manager_script.EnamyAttack();
             text_script.ComboSwitchOn();
             text_script.ComboCountUp();
+
             Destroy_Enemy();
         }
-
-        // 敵の爆風に当たったら消える
-        if (other.gameObject.tag == "enemy_explosion")
+        else if (other.gameObject.tag == "enemy_explosion") // 敵の爆風に当たったら消える
         {
             effect_copy = Instantiate(effect, transform.position, transform.rotation);
+
+            switch (text_script.ComboCount())
+            {
+                case 0: break;
+                case 1: combo_text_copy = Instantiate(x1, transform.position + new Vector3(0f, 0f, -5f), transform.rotation); break;
+                case 2: combo_text_copy = Instantiate(x2, transform.position + new Vector3(0f, 0f, -5f), transform.rotation); break;
+                case 3: combo_text_copy = Instantiate(x3, transform.position + new Vector3(0f, 0f, -5f), transform.rotation); break;
+                case 4: combo_text_copy = Instantiate(x4, transform.position + new Vector3(0f, 0f, -5f), transform.rotation); break;
+                case 5: combo_text_copy = Instantiate(x5, transform.position + new Vector3(0f, 0f, -5f), transform.rotation); break;
+            }
+
             scene_manager_script.EnamyAttack();
             text_script.ComboSwitchOn();
             text_script.ComboCountUp();
+
             Destroy_Enemy();
         }
 

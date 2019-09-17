@@ -16,7 +16,9 @@ public class ufo_generator : MonoBehaviour
     // UFOのカウント
     private int ufo_count;             
     // UFOの生成する最大数
-    private int ufo_max_count;         
+    private int ufo_max_count;
+    // 画面遷移に必要なUFOの変数
+    private int ufo_state;
     // シーンマネージャーの取得
     [SerializeField]
     private GameObject scene_manager;
@@ -88,9 +90,9 @@ public class ufo_generator : MonoBehaviour
     {
         switch (level)
         {
-            case 1: ufo_max_count = 3;  break;
-            case 2: ufo_max_count = 6;  break;
-            case 3: ufo_max_count = 10; break;
+            case 1: ufo_max_count = 3; ufo_state = ufo_max_count;  break;
+            case 2: ufo_max_count = 6; ufo_state = ufo_max_count;  break;
+            case 3: ufo_max_count = 10; ufo_state = ufo_max_count; break;
         }
     }
 
@@ -100,6 +102,7 @@ public class ufo_generator : MonoBehaviour
     private void initialization()
     {
         first_pop = true;
+        time_count = 0;
         ufo_count = 0;
         UfoMaxCount(scene_manager_script.EnemyLevel()); 
     }
@@ -109,12 +112,12 @@ public class ufo_generator : MonoBehaviour
     /// </summary>
     public void UfoMaxCountDown()
     {
-        ufo_max_count--;
+        ufo_state--;
     }
 
     /// <summary>
     /// UFOの現在の数を返す
     /// </summary>
     /// <returns></returns>
-    public int UfoMaxCount() { return ufo_max_count; }
+    public int UfoState() { return ufo_state; }
 }
