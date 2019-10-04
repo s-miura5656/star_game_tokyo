@@ -144,8 +144,10 @@ public class enemy_controller : MonoBehaviour
     /// </summary>
     private void Enemy_Move()
     {
+        // 時間の経過
         elapsed_time += Time.deltaTime;
 
+        // 始点と終点の距離
         float distance = Vector3.Distance(base_pos, end_pos);
 
         //Debug.Log(distance);
